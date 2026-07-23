@@ -3,7 +3,7 @@ using System.Windows;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Mvvm;
-using Prism.Navigation.Regions;
+using Prism.Regions;
 
 using ZenUI.Wpf.Demo.Navigation;
 using ZenUI.Wpf.Demo.ViewModels;
