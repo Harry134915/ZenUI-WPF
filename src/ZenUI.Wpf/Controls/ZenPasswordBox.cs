@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 using System.Security;
 using System.Windows;
@@ -50,11 +49,6 @@ namespace ZenUI.Wpf.Controls
 
             if (passwordBox != null)
             {
-                if (EnableInsecurePasswordBinding)
-                {
-                    passwordBox.Password = (string)GetValue(PasswordProperty) ?? string.Empty;
-                }
-
                 passwordBox.PasswordChanged += OnPasswordChanged;
                 HasPassword = passwordBox.Password.Length > 0;
             }
@@ -101,54 +95,8 @@ namespace ZenUI.Wpf.Controls
         public void Clear()
         {
             passwordBox?.Clear();
-            if (EnableInsecurePasswordBinding)
-            {
-                SetCurrentValue(PasswordProperty, string.Empty);
-            }
-
             HasPassword = false;
         }
-
-        /// <summary>
-        /// 获取或设置密码框中的密码。
-        /// </summary>
-        /// <remarks>启用此属性会在托管内存和 WPF 属性系统中保存密码明文。</remarks>
-        [Obsolete("明文 Password 绑定不安全。请使用 PasswordChanged 和 SecurePassword；如需兼容旧代码，请显式设置 EnableInsecurePasswordBinding=true。")]
-        [Bindable(true)]
-        public string Password
-        {
-            get { return (string)GetValue(PasswordProperty); }
-            set { SetValue(PasswordProperty, value); }
-        }
-
-        /// <summary>
-        /// 标识 <see cref="Password"/> 依赖属性。
-        /// </summary>
-        public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.Register(
-                "Password",
-                typeof(string),
-                typeof(ZenPasswordBox),
-                new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnPasswordPropertyChanged));
-
-        /// <summary>
-        /// 获取或设置是否启用旧版明文 <see cref="Password"/> 双向绑定。默认关闭。
-        /// </summary>
-        public bool EnableInsecurePasswordBinding
-        {
-            get { return (bool)GetValue(EnableInsecurePasswordBindingProperty); }
-            set { SetValue(EnableInsecurePasswordBindingProperty, value); }
-        }
-
-        /// <summary>
-        /// 标识 <see cref="EnableInsecurePasswordBinding"/> 依赖属性。
-        /// </summary>
-        public static readonly DependencyProperty EnableInsecurePasswordBindingProperty =
-            DependencyProperty.Register(
-                nameof(EnableInsecurePasswordBinding),
-                typeof(bool),
-                typeof(ZenPasswordBox),
-                new FrameworkPropertyMetadata(false, OnEnableInsecurePasswordBindingChanged));
 
         /// <summary>
         /// 获取或设置是否显示密码明文切换按钮。按钮的可见性不依赖密码是否为空。
@@ -207,6 +155,86 @@ namespace ZenUI.Wpf.Controls
             DependencyProperty.Register(nameof(Watermark), typeof(string), typeof(ZenPasswordBox), new FrameworkPropertyMetadata(string.Empty));
 
         /// <summary>
+        /// 获取或设置显示在密码输入区域之前的内容。
+        /// </summary>
+        [Bindable(true)]
+        public object LeadingContent
+        {
+            get { return GetValue(LeadingContentProperty); }
+            set { SetValue(LeadingContentProperty, value); }
+        }
+
+        /// <summary>
+        /// 标识 <see cref="LeadingContent"/> 依赖属性。
+        /// </summary>
+        public static readonly DependencyProperty LeadingContentProperty =
+            DependencyProperty.Register(
+                nameof(LeadingContent),
+                typeof(object),
+                typeof(ZenPasswordBox),
+                new FrameworkPropertyMetadata(null));
+
+        /// <summary>
+        /// 获取或设置用于显示 <see cref="LeadingContent"/> 的数据模板。
+        /// </summary>
+        [Bindable(true)]
+        public DataTemplate LeadingContentTemplate
+        {
+            get { return (DataTemplate)GetValue(LeadingContentTemplateProperty); }
+            set { SetValue(LeadingContentTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// 标识 <see cref="LeadingContentTemplate"/> 依赖属性。
+        /// </summary>
+        public static readonly DependencyProperty LeadingContentTemplateProperty =
+            DependencyProperty.Register(
+                nameof(LeadingContentTemplate),
+                typeof(DataTemplate),
+                typeof(ZenPasswordBox),
+                new FrameworkPropertyMetadata(null));
+
+        /// <summary>
+        /// 获取或设置显示在密码输入区域和显隐按钮之间的内容。
+        /// </summary>
+        [Bindable(true)]
+        public object TrailingContent
+        {
+            get { return GetValue(TrailingContentProperty); }
+            set { SetValue(TrailingContentProperty, value); }
+        }
+
+        /// <summary>
+        /// 标识 <see cref="TrailingContent"/> 依赖属性。
+        /// </summary>
+        public static readonly DependencyProperty TrailingContentProperty =
+            DependencyProperty.Register(
+                nameof(TrailingContent),
+                typeof(object),
+                typeof(ZenPasswordBox),
+                new FrameworkPropertyMetadata(null));
+
+        /// <summary>
+        /// 获取或设置用于显示 <see cref="TrailingContent"/> 的数据模板。
+        /// </summary>
+        [Bindable(true)]
+        public DataTemplate TrailingContentTemplate
+        {
+            get { return (DataTemplate)GetValue(TrailingContentTemplateProperty); }
+            set { SetValue(TrailingContentTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// 标识 <see cref="TrailingContentTemplate"/> 依赖属性。
+        /// </summary>
+        public static readonly DependencyProperty TrailingContentTemplateProperty =
+            DependencyProperty.Register(
+                nameof(TrailingContentTemplate),
+                typeof(DataTemplate),
+                typeof(ZenPasswordBox),
+                new FrameworkPropertyMetadata(null));
+
+        /// <summary>
         /// 获取或设置密码框的圆角。
         /// </summary>
         [Bindable(true)]
@@ -232,35 +260,6 @@ namespace ZenUI.Wpf.Controls
             DependencyProperty.RegisterReadOnly(nameof(HasPassword), typeof(bool), typeof(ZenPasswordBox), new FrameworkPropertyMetadata(false));
 
         internal static readonly DependencyProperty HasPasswordProperty = HasPasswordPropertyKey.DependencyProperty;
-
-        private static void OnPasswordPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var control = (ZenPasswordBox)d;
-            if (!control.EnableInsecurePasswordBinding || control.passwordBox == null || control.isSynchronizingPassword)
-            {
-                return;
-            }
-
-            control.passwordBox.Password = (string)e.NewValue ?? string.Empty;
-            control.HasPassword = control.passwordBox.Password.Length > 0;
-        }
-
-        private static void OnEnableInsecurePasswordBindingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var control = (ZenPasswordBox)d;
-            if ((bool)e.NewValue)
-            {
-                if (control.passwordBox != null)
-                {
-                    control.passwordBox.Password = (string)control.GetValue(PasswordProperty) ?? string.Empty;
-                    control.HasPassword = control.passwordBox.Password.Length > 0;
-                }
-
-                return;
-            }
-
-            control.SetCurrentValue(PasswordProperty, string.Empty);
-        }
 
         private static void OnIsPasswordRevealEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -288,11 +287,6 @@ namespace ZenUI.Wpf.Controls
             }
 
             isSynchronizingPassword = true;
-            if (EnableInsecurePasswordBinding)
-            {
-                SetCurrentValue(PasswordProperty, passwordBox.Password);
-            }
-
             if (IsPasswordRevealed && revealTextBox != null)
             {
                 revealTextBox.Text = passwordBox.Password;
@@ -312,11 +306,6 @@ namespace ZenUI.Wpf.Controls
 
             isSynchronizingPassword = true;
             passwordBox.Password = revealTextBox.Text;
-            if (EnableInsecurePasswordBinding)
-            {
-                SetCurrentValue(PasswordProperty, revealTextBox.Text);
-            }
-
             isSynchronizingPassword = false;
             HasPassword = revealTextBox.Text.Length > 0;
             RaiseEvent(new RoutedEventArgs(PasswordChangedEvent, this));
