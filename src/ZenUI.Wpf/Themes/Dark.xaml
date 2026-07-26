@@ -29,11 +29,21 @@
     <SolidColorBrush x:Key="ZenTextPrimaryBrush" Color="#F2F3F5" />
     <SolidColorBrush x:Key="ZenTextSecondaryBrush" Color="#C4C9D1" />
     <SolidColorBrush x:Key="ZenTextPlaceholderBrush" Color="#929AA8" />
+    <SolidColorBrush x:Key="ZenOnAccentBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="ZenControlThumbBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="ZenControlThumbBorderBrush" Color="#18000000" />
     <SolidColorBrush x:Key="ZenFocusBrush" Color="#A8BBFF" />
     <SolidColorBrush x:Key="ZenInfoLightBrush" Color="#263557" />
     <SolidColorBrush x:Key="ZenSuccessLightBrush" Color="#1E3D2B" />
     <SolidColorBrush x:Key="ZenWarningLightBrush" Color="#493819" />
     <SolidColorBrush x:Key="ZenErrorLightBrush" Color="#4A2628" />
+    <SolidColorBrush x:Key="ZenListBoxItemHoverBrush" Color="#333B4A" />
+    <SolidColorBrush x:Key="ZenListBoxItemSelectedBrush" Color="#263557" />
+    <SolidColorBrush x:Key="ZenListBoxItemSelectedHoverBrush" Color="#304269" />
+    <SolidColorBrush x:Key="ZenListBoxItemSelectedForegroundBrush" Color="#A8BBFF" />
+    <SolidColorBrush x:Key="ZenListBoxItemSelectedInactiveBrush" Color="#343B4A" />
+    <SolidColorBrush x:Key="ZenListBoxItemSelectedInactiveForegroundBrush" Color="#C4C9D1" />
     <SolidColorBrush x:Key="ZenDataGridAlternatingRowBrush" Color="#232832" />
     <SolidColorBrush x:Key="ZenDataGridRowHoverBrush" Color="#30394B" />
+    <SolidColorBrush x:Key="ZenDataGridRowSelectedBrush" Color="#343B4A" />
 </ResourceDictionary>

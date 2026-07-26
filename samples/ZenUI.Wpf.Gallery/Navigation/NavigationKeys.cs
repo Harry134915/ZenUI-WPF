@@ -3,6 +3,7 @@ namespace ZenUI.Wpf.Gallery.Navigation
     public static class NavigationKeys
     {
         public const string Overview = nameof(Overview);
+        public const string Token = nameof(Token);
         public const string Button = nameof(Button);
         public const string TextBox = nameof(TextBox);
         public const string NumberBox = nameof(NumberBox);
@@ -11,6 +12,7 @@ namespace ZenUI.Wpf.Gallery.Navigation
         public const string CheckBox = nameof(CheckBox);
         public const string RadioButton = nameof(RadioButton);
         public const string ComboBox = nameof(ComboBox);
+        public const string ListBox = nameof(ListBox);
         public const string DatePicker = nameof(DatePicker);
         public const string DataGrid = nameof(DataGrid);
         public const string Slider = nameof(Slider);

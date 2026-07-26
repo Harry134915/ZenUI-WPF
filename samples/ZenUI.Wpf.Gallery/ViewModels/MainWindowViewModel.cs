@@ -14,6 +14,7 @@ namespace ZenUI.Wpf.Gallery.ViewModels
     public sealed class MainWindowViewModel : BindableBase
     {
         private readonly IRegionManager regionManager;
+        private DensityOption selectedDensityOption;
         private ThemeOption selectedThemeOption;
 
         public MainWindowViewModel(IRegionManager regionManager)
@@ -28,9 +29,18 @@ namespace ZenUI.Wpf.Gallery.ViewModels
             };
             selectedThemeOption = ThemeOptions[0];
 
+            DensityOptions = new[]
+            {
+                new DensityOption("紧凑", ZenDensity.Compact),
+                new DensityOption("标准", ZenDensity.Standard),
+                new DensityOption("宽松", ZenDensity.Comfortable)
+            };
+            selectedDensityOption = DensityOptions[1];
+
             MenuItems = new ObservableCollection<MenuItemViewModel>
             {
                 new MenuItemViewModel("概览", NavigationKeys.Overview, true),
+                new MenuItemViewModel("设计 Token", NavigationKeys.Token),
                 new MenuItemViewModel("按钮  Button", NavigationKeys.Button),
                 new MenuItemViewModel("输入框  TextBox", NavigationKeys.TextBox),
                 new MenuItemViewModel("数字输入框  NumberBox", NavigationKeys.NumberBox),
@@ -39,6 +49,7 @@ namespace ZenUI.Wpf.Gallery.ViewModels
                 new MenuItemViewModel("复选框  CheckBox", NavigationKeys.CheckBox),
                 new MenuItemViewModel("单选框  RadioButton", NavigationKeys.RadioButton),
                 new MenuItemViewModel("下拉框  ComboBox", NavigationKeys.ComboBox),
+                new MenuItemViewModel("列表框  ListBox", NavigationKeys.ListBox),
                 new MenuItemViewModel("日期选择器  DatePicker", NavigationKeys.DatePicker),
                 new MenuItemViewModel("数据表格  DataGrid", NavigationKeys.DataGrid),
                 new MenuItemViewModel("滑块  Slider", NavigationKeys.Slider),
@@ -51,7 +62,21 @@ namespace ZenUI.Wpf.Gallery.ViewModels
 
         public ObservableCollection<MenuItemViewModel> MenuItems { get; }
 
+        public IReadOnlyList<DensityOption> DensityOptions { get; }
+
         public IReadOnlyList<ThemeOption> ThemeOptions { get; }
+
+        public DensityOption SelectedDensityOption
+        {
+            get { return selectedDensityOption; }
+            set
+            {
+                if (value != null && SetProperty(ref selectedDensityOption, value))
+                {
+                    ZenDensityManager.ApplyDensity(Application.Current.Resources, value.Density);
+                }
+            }
+        }
 
         public ThemeOption SelectedThemeOption
         {
@@ -60,7 +85,7 @@ namespace ZenUI.Wpf.Gallery.ViewModels
             {
                 if (value != null && SetProperty(ref selectedThemeOption, value))
                 {
-                    ZenThemeManager.ApplyTheme(Application.Current.Resources, value.Theme, false);
+                    ZenThemeManager.ApplyTheme(Application.Current.Resources, value.Theme);
                 }
             }
         }
@@ -89,5 +114,18 @@ namespace ZenUI.Wpf.Gallery.ViewModels
         public string DisplayName { get; }
 
         public ZenTheme Theme { get; }
+    }
+
+    public sealed class DensityOption
+    {
+        public DensityOption(string displayName, ZenDensity density)
+        {
+            DisplayName = displayName;
+            Density = density;
+        }
+
+        public string DisplayName { get; }
+
+        public ZenDensity Density { get; }
     }
 }

@@ -1,11 +1,12 @@
 # 测试规范
 
-本文约定 ZenUI.Wpf 的自动化测试写法。测试应保护公开行为、WPF 契约和跨目标框架兼容性，避免绑定到无关的实现细节。
+本文约定 ZenUI.Wpf 组件与转换器的自动化测试写法。测试应保护公开行为、WPF 契约和跨目标框架兼容性，避免绑定到无关的实现细节。
 
 ## 工程与框架
 
-- 测试统一放在 `tests/ZenUI.Wpf.Tests/`，目录与被测能力对应，例如 `Controls/`、`Converters/`、`Theming/`。
-- 使用项目现有的 MSTest，不为单个控件或功能新建测试工程。
+- 控件和主题测试放在 `tests/ZenUI.Wpf.Tests/`，目录与被测能力对应，例如 `Controls/`、`Theming/`。
+- 转换器测试放在 `tests/ZenUI.Wpf.Converters.Tests/`，保证转换器包不通过测试项目间接依赖控件包。
+- 使用项目现有的 MSTest；除独立 NuGet 包边界外，不为单个控件或功能新建测试工程。
 - 普通测试使用 `[TestClass]` 和 `[TestMethod]`。
 - 创建或操作 WPF 控件、窗口、模板、Dispatcher 或 UI Automation Peer 的测试使用 `[STATestClass]`。
 - 测试必须同时兼容项目当前目标框架 `net472` 和 `net8.0-windows`；不要使用仅在其中一个目标可用的测试 API。
@@ -49,10 +50,21 @@
 
 ## 视觉回归
 
-- 快照覆盖 Light、Dark、HighContrast 主题以及仓库约定的 DPI 比例。
+- 快照覆盖 Light、Dark、HighContrast 主题、Compact、Standard、Comfortable 密度以及仓库约定的 DPI 比例。
 - 输出只用于审查时，测试仍需包含能自动发现明显退化的断言。
 - 快照内容使用稳定、非业务化的示例数据，避免时间、随机数和机器相关信息。
 - 更新快照或阈值时说明视觉变化的原因，不以放宽断言掩盖回归。
+
+## Popup 与多显示器检查
+
+自动化测试应至少覆盖弹层在主工作区底边和右边附近的翻转与边界约束。发布前还需在真实多显示器环境人工检查：
+
+- 主、副显示器分别设置 100%、125%、150% 或 200% 缩放，覆盖混合 DPI。
+- 将主显示器放在虚拟桌面的中间，并覆盖副显示器位于左侧或上方的负坐标布局。
+- 在每台显示器的上、下、左、右边缘打开 ComboBox 与 DatePicker。
+- 确认弹层停留在控件所在显示器的可用工作区内，不被任务栏或屏幕边缘裁切。
+- 打开弹层后使用方向键、Enter、Escape 和 Tab，确认焦点、选择和关闭行为正常。
+- 在弹层保持打开时移动窗口跨越显示器，确认布局不会停留在旧显示器或出现不可交互区域。
 
 ## 回归与验证
 
@@ -61,7 +73,7 @@
 提交前至少运行：
 
 ```powershell
-dotnet test tests/ZenUI.Wpf.Tests/ZenUI.Wpf.Tests.csproj -c Release
+dotnet test ZenUI.Wpf.slnx -c Release
 ```
 
 影响打包、公共 API 或多目标框架配置时，还应按 `CONTRIBUTING.md` 运行完整构建与打包检查。

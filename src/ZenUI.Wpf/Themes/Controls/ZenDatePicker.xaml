@@ -46,9 +46,10 @@
     </Style>
 
     <Style x:Key="ZenCalendarNavigationButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="Width" Value="30" />
-        <Setter Property="Height" Value="30" />
+        <Setter Property="Width" Value="{Binding NavigationButtonSize, RelativeSource={RelativeSource AncestorType={x:Type zen:ZenCalendar}}}" />
+        <Setter Property="Height" Value="{Binding NavigationButtonSize, RelativeSource={RelativeSource AncestorType={x:Type zen:ZenCalendar}}}" />
         <Setter Property="Padding" Value="0" />
+        <Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource AncestorType={x:Type zen:ZenCalendar}}}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource ZenTextSecondaryBrush}" />
         <Setter Property="BorderThickness" Value="0" />
@@ -87,14 +88,15 @@
         <Setter Property="Width" Value="Auto" />
         <Setter Property="Padding" Value="12,0" />
         <Setter Property="Foreground" Value="{DynamicResource ZenTextPrimaryBrush}" />
-        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontWeight" Value="{DynamicResource ZenFontWeightSemibold}" />
     </Style>
 
     <Style x:Key="ZenCalendarDayButtonStyle" TargetType="{x:Type CalendarDayButton}">
-        <Setter Property="Width" Value="34" />
-        <Setter Property="Height" Value="32" />
+        <Setter Property="Width" Value="{Binding DayButtonWidth, RelativeSource={RelativeSource AncestorType={x:Type zen:ZenCalendar}}}" />
+        <Setter Property="Height" Value="{Binding DayButtonHeight, RelativeSource={RelativeSource AncestorType={x:Type zen:ZenCalendar}}}" />
         <Setter Property="Margin" Value="1" />
         <Setter Property="Padding" Value="0" />
+        <Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource AncestorType={x:Type zen:ZenCalendar}}}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="Transparent" />
@@ -117,7 +119,7 @@
                             <Setter TargetName="DayBorder" Property="BorderBrush" Value="{DynamicResource ZenPrimaryBrush}" />
                             <Setter TargetName="DayBorder" Property="BorderThickness" Value="1" />
                             <Setter Property="Foreground" Value="{DynamicResource ZenPrimaryBrush}" />
-                            <Setter Property="FontWeight" Value="SemiBold" />
+                            <Setter Property="FontWeight" Value="{DynamicResource ZenFontWeightSemibold}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="DayBorder" Property="Background" Value="{DynamicResource ZenSurfaceHoverBrush}" />
@@ -125,7 +127,7 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="DayBorder" Property="Background" Value="{DynamicResource ZenPrimaryBrush}" />
                             <Setter TargetName="DayBorder" Property="BorderBrush" Value="{DynamicResource ZenPrimaryBrush}" />
-                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="Foreground" Value="{DynamicResource ZenOnAccentBrush}" />
                         </Trigger>
                         <Trigger Property="IsInactive" Value="True">
                             <Setter Property="Opacity" Value="0.42" />
@@ -148,7 +150,8 @@
 
     <Style x:Key="ZenCalendarButtonStyle" TargetType="{x:Type CalendarButton}">
         <Setter Property="Margin" Value="2" />
-        <Setter Property="Padding" Value="8,10" />
+        <Setter Property="Padding" Value="{Binding ButtonPadding, RelativeSource={RelativeSource AncestorType={x:Type zen:ZenCalendar}}}" />
+        <Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource AncestorType={x:Type zen:ZenCalendar}}}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="Transparent" />
@@ -187,7 +190,7 @@
                 <ControlTemplate TargetType="{x:Type CalendarItem}">
                     <Grid x:Name="PART_Root">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="42" />
+                            <RowDefinition Height="48" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid>
@@ -240,7 +243,7 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="28" />
+                                <RowDefinition Height="32" />
                                 <RowDefinition />
                                 <RowDefinition />
                                 <RowDefinition />
@@ -285,6 +288,7 @@
     <Style x:Key="ZenCalendarStyle" TargetType="{x:Type Calendar}">
         <Setter Property="Background" Value="{DynamicResource ZenSurfaceBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource ZenTextPrimaryBrush}" />
+        <Setter Property="FontSize" Value="{DynamicResource ZenFontSizeBody}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ZenBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CalendarButtonStyle" Value="{StaticResource ZenCalendarButtonStyle}" />
@@ -310,12 +314,20 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ZenDatePickerStyle" TargetType="{x:Type zen:ZenDatePicker}">
+    <Style
+        x:Key="ZenDatePickerStyle"
+        TargetType="{x:Type zen:ZenDatePicker}">
         <Setter Property="Padding" Value="{DynamicResource ZenInputControlPadding}" />
-        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="MinHeight" Value="{DynamicResource ZenInputControlMinHeight}" />
+        <Setter Property="FontSize" Value="{DynamicResource ZenFontSizeBody}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ZenInputControlCornerRadius}" />
+        <Setter Property="CalendarDayButtonWidth" Value="{DynamicResource ZenCalendarDayButtonWidth}" />
+        <Setter Property="CalendarDayButtonHeight" Value="{DynamicResource ZenCalendarDayButtonHeight}" />
+        <Setter Property="CalendarButtonPadding" Value="{DynamicResource ZenCalendarButtonPadding}" />
+        <Setter Property="CalendarNavigationButtonSize" Value="{DynamicResource ZenCalendarNavigationButtonSize}" />
         <Setter Property="Background" Value="{DynamicResource ZenSurfaceBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ZenBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ZenControlBorderThickness}" />
         <Setter Property="Foreground" Value="{DynamicResource ZenTextPrimaryBrush}" />
         <Setter Property="CalendarStyle" Value="{StaticResource ZenCalendarStyle}" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -327,7 +339,7 @@
                             x:Name="InputBorder"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="1"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{TemplateBinding CornerRadius}" />
                         <DatePickerTextBox
                             x:Name="PART_TextBox"
@@ -383,9 +395,20 @@
                             Placement="Bottom"
                             PopupAnimation="Fade"
                             StaysOpen="False">
-                            <Calendar
+                            <zen:ZenCalendar
                                 x:Name="PART_Calendar"
                                 Margin="0,4,0,0"
+                                ButtonPadding="{Binding CalendarButtonPadding, RelativeSource={RelativeSource TemplatedParent}}"
+                                DayButtonHeight="{Binding CalendarDayButtonHeight, RelativeSource={RelativeSource TemplatedParent}}"
+                                DayButtonWidth="{Binding CalendarDayButtonWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                DisplayDateEnd="{TemplateBinding DisplayDateEnd}"
+                                DisplayDateStart="{TemplateBinding DisplayDateStart}"
+                                FirstDayOfWeek="{TemplateBinding FirstDayOfWeek}"
+                                FlowDirection="{TemplateBinding FlowDirection}"
+                                FontSize="{Binding FontSize, RelativeSource={RelativeSource TemplatedParent}}"
+                                IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"
+                                NavigationButtonSize="{Binding CalendarNavigationButtonSize, RelativeSource={RelativeSource TemplatedParent}}"
+                                SelectedDate="{Binding SelectedDate, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                 Style="{TemplateBinding CalendarStyle}" />
                         </Popup>
                     </Grid>
@@ -407,7 +430,7 @@
                             <Setter TargetName="InputBorder" Property="BorderThickness" Value="2" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.55" />
+                            <Setter Property="Opacity" Value="{DynamicResource ZenDisabledInputOpacity}" />
                             <Setter TargetName="InputBorder" Property="Background" Value="{DynamicResource ZenSurfaceMutedBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>

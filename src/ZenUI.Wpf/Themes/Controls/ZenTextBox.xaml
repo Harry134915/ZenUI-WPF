@@ -13,12 +13,15 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ZenTextBoxStyle" TargetType="{x:Type zen:ZenTextBox}">
-        <Setter Property="MinHeight" Value="36" />
+    <Style
+        x:Key="ZenTextBoxStyle"
+        TargetType="{x:Type zen:ZenTextBox}">
+        <Setter Property="FontSize" Value="{DynamicResource ZenFontSizeBody}" />
+        <Setter Property="MinHeight" Value="{DynamicResource ZenInputControlMinHeight}" />
         <Setter Property="Padding" Value="{DynamicResource ZenInputControlPadding}" />
         <Setter Property="Background" Value="{DynamicResource ZenSurfaceBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ZenBorderBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ZenControlBorderThickness}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ZenInputControlCornerRadius}" />
         <Setter Property="Foreground" Value="{DynamicResource ZenTextPrimaryBrush}" />
         <Setter Property="CaretBrush" Value="{DynamicResource ZenTextPrimaryBrush}" />
@@ -110,7 +113,7 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="InputBorder" Property="Background" Value="{DynamicResource ZenSurfaceDisabledBrush}" />
-                            <Setter Property="Opacity" Value="0.6" />
+                            <Setter Property="Opacity" Value="{DynamicResource ZenDisabledFieldOpacity}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

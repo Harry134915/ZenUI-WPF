@@ -1,0 +1,40 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:Double x:Key="ZenInputControlMinHeight">40</sys:Double>
+    <Thickness x:Key="ZenInputControlPadding">10,6</Thickness>
+
+    <Thickness x:Key="ZenButtonPadding">8,3</Thickness>
+    <Thickness x:Key="ZenListBoxPadding">6</Thickness>
+    <Thickness x:Key="ZenListBoxItemPadding">14,11</Thickness>
+    <Thickness x:Key="ZenListBoxItemMargin">0,2</Thickness>
+
+    <sys:Double x:Key="ZenScrollBarThickness">14</sys:Double>
+    <sys:Double x:Key="ZenScrollBarTrackThickness">8</sys:Double>
+    <sys:Double x:Key="ZenScrollBarThumbMinLength">40</sys:Double>
+
+    <Thickness x:Key="ZenComboBoxPopupMargin">0,6,0,0</Thickness>
+    <Thickness x:Key="ZenComboBoxPopupPadding">6</Thickness>
+
+    <sys:Double x:Key="ZenDataGridColumnHeaderHeight">52</sys:Double>
+    <sys:Double x:Key="ZenDataGridRowMinHeight">52</sys:Double>
+    <Thickness x:Key="ZenDataGridCellPadding">18,0</Thickness>
+
+    <sys:Double x:Key="ZenCalendarDayButtonWidth">54</sys:Double>
+    <sys:Double x:Key="ZenCalendarDayButtonHeight">50</sys:Double>
+    <Thickness x:Key="ZenCalendarButtonPadding">14,18</Thickness>
+    <sys:Double x:Key="ZenCalendarNavigationButtonSize">44</sys:Double>
+
+    <sys:Double x:Key="ZenSwitchWidth">72</sys:Double>
+    <sys:Double x:Key="ZenSwitchHeight">34</sys:Double>
+    <Thickness x:Key="ZenSwitchThumbMargin">4</Thickness>
+
+    <sys:Double x:Key="ZenSliderThumbSize">22</sys:Double>
+    <sys:Double x:Key="ZenSliderTrackThickness">6</sys:Double>
+    <sys:Double x:Key="ZenSliderCrossAxisMinSize">28</sys:Double>
+
+    <sys:Double x:Key="ZenProgressBarThickness">10</sys:Double>
+    <Thickness x:Key="ZenAlertPadding">16,14</Thickness>
+</ResourceDictionary>

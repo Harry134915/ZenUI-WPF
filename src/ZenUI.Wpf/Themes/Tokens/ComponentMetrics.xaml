@@ -1,0 +1,59 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- 按钮 -->
+    <Thickness x:Key="ZenButtonPadding">5,0</Thickness>
+    <CornerRadius x:Key="ZenButtonCornerRadius">10</CornerRadius>
+    <CornerRadius x:Key="ZenButtonFocusVisualCornerRadius">13</CornerRadius>
+
+    <!-- 列表框 -->
+    <Thickness x:Key="ZenListBoxPadding">4</Thickness>
+    <CornerRadius x:Key="ZenListBoxCornerRadius">8</CornerRadius>
+    <Thickness x:Key="ZenListBoxItemPadding">12,9</Thickness>
+    <Thickness x:Key="ZenListBoxItemMargin">0,1</Thickness>
+    <CornerRadius x:Key="ZenListBoxItemCornerRadius">5</CornerRadius>
+
+    <!-- 滚动条 -->
+    <sys:Double x:Key="ZenScrollBarThickness">12</sys:Double>
+    <sys:Double x:Key="ZenScrollBarTrackThickness">6</sys:Double>
+    <sys:Double x:Key="ZenScrollBarThumbMinLength">32</sys:Double>
+    <Thickness x:Key="ZenVerticalScrollBarThumbMargin">3,0</Thickness>
+    <Thickness x:Key="ZenHorizontalScrollBarThumbMargin">0,3</Thickness>
+    <CornerRadius x:Key="ZenScrollBarCornerRadius">3</CornerRadius>
+
+    <!-- 弹层表面 -->
+    <Thickness x:Key="ZenComboBoxPopupMargin">0,4,0,0</Thickness>
+    <Thickness x:Key="ZenComboBoxPopupPadding">4</Thickness>
+    <CornerRadius x:Key="ZenComboBoxPopupCornerRadius">6</CornerRadius>
+
+    <!-- 数据网格 -->
+    <sys:Double x:Key="ZenDataGridColumnHeaderHeight">44</sys:Double>
+    <sys:Double x:Key="ZenDataGridRowMinHeight">44</sys:Double>
+    <Thickness x:Key="ZenDataGridCellPadding">14,0</Thickness>
+    <Thickness x:Key="ZenDataGridCellFocusVisualBorderThickness">1</Thickness>
+    <Thickness x:Key="ZenDataGridCellValidationBorderThickness">2</Thickness>
+
+    <!-- 日历 -->
+    <sys:Double x:Key="ZenCalendarDayButtonWidth">48</sys:Double>
+    <sys:Double x:Key="ZenCalendarDayButtonHeight">44</sys:Double>
+    <Thickness x:Key="ZenCalendarButtonPadding">12,16</Thickness>
+    <sys:Double x:Key="ZenCalendarNavigationButtonSize">40</sys:Double>
+
+    <!-- 开关 -->
+    <sys:Double x:Key="ZenSwitchWidth">64</sys:Double>
+    <sys:Double x:Key="ZenSwitchHeight">30</sys:Double>
+    <Thickness x:Key="ZenSwitchThumbMargin">4</Thickness>
+
+    <!-- 滑块 -->
+    <sys:Double x:Key="ZenSliderThumbSize">18</sys:Double>
+    <sys:Double x:Key="ZenSliderTrackThickness">4</sys:Double>
+    <sys:Double x:Key="ZenSliderCrossAxisMinSize">24</sys:Double>
+
+    <!-- 进度条 -->
+    <sys:Double x:Key="ZenProgressBarThickness">8</sys:Double>
+
+    <!-- 提示条 -->
+    <Thickness x:Key="ZenAlertPadding">14,11</Thickness>
+</ResourceDictionary>

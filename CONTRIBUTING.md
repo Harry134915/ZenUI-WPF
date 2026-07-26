@@ -11,13 +11,16 @@
 ```powershell
 dotnet restore ZenUI.Wpf.slnx
 dotnet build ZenUI.Wpf.slnx -c Release --no-restore
-dotnet test tests/ZenUI.Wpf.Tests/ZenUI.Wpf.Tests.csproj -c Release --no-build
+dotnet test ZenUI.Wpf.slnx -c Release --no-build
 dotnet pack src/ZenUI.Wpf/ZenUI.Wpf.csproj -c Release --no-build -o artifacts/packages
+dotnet pack src/ZenUI.Wpf.Converters/ZenUI.Wpf.Converters.csproj -c Release --no-build -o artifacts/packages
 ```
 
-新增或修改控件时，需要覆盖默认、悬停、按下、键盘焦点、禁用、只读、验证错误和高对比度状态。继承 WPF 控件时，应保留其公开属性对应的模板契约，并为关键行为添加 STA 回归测试。
+新增或修改控件时，需要覆盖默认、悬停、按下、键盘焦点、禁用、只读、验证错误和高对比度状态。继承 WPF 控件时，应保留其公开属性对应的模板契约，并为关键行为添加 STA 回归测试。完整要求参见[控件设计规范](docs/design/component-design.md)。
 
-公共 API 的不兼容修改必须记录在 `CHANGELOG.md`，并按语义化版本调整主版本号。
+## 控件设计约束
+
+ZenUI 只改变 WPF 控件的默认值和默认呈现，不覆盖或移除基类控件原有功能。实现与评审控件变更统一遵循[控件设计规范](docs/design/component-design.md)，测试写法遵循[测试规范](docs/development/testing.md)，公共 API 文档遵循[C# 注释规范](docs/development/commenting.md)。
 
 ## 提交信息
 
@@ -32,4 +35,4 @@ dotnet pack src/ZenUI.Wpf/ZenUI.Wpf.csproj -c Release --no-build -o artifacts/pa
 - 每个公开 NuGet 版本必须创建对应的 `v<version>` Tag 和 GitHub Release。
 - 发布前必须确认本地验证与远程 CI 全部成功。
 
-完整流程参见 [版本与发布规范](docs/RELEASING.md)。
+完整流程参见 [版本与发布规范](docs/maintainers/releasing.md)。

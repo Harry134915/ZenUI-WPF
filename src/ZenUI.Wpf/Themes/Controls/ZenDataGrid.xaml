@@ -48,9 +48,13 @@
                             Content="{TemplateBinding Content}" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsRowSelected" Value="True">
-                            <Setter TargetName="HeaderBorder" Property="Background" Value="{DynamicResource ZenInfoLightBrush}" />
-                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsRowSelected" Value="True" />
+                                <Condition Property="zen:ZenDataGrid.IsRowSelectionHighlightEnabled" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="HeaderBorder" Property="Background" Value="{DynamicResource ZenDataGridRowSelectedBrush}" />
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -58,11 +62,11 @@
     </Style>
 
     <Style x:Key="ZenDataGridColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
-        <Setter Property="Height" Value="44" />
+        <Setter Property="Height" Value="{DynamicResource ZenDataGridColumnHeaderHeight}" />
         <Setter Property="Padding" Value="14,0" />
         <Setter Property="Background" Value="{DynamicResource ZenSurfaceMutedBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource ZenTextSecondaryBrush}" />
-        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontWeight" Value="{DynamicResource ZenFontWeightSemibold}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="BorderBrush" Value="{DynamicResource ZenDividerBrush}" />
@@ -127,7 +131,9 @@
     </Style>
 
     <Style x:Key="ZenDataGridCellStyle" TargetType="{x:Type DataGridCell}">
-        <Setter Property="Padding" Value="14,0" />
+        <Setter Property="Padding" Value="{DynamicResource ZenDataGridCellPadding}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type zen:ZenDataGrid}}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ZenBorderBrush}" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -135,25 +141,44 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridCell}">
-                    <Border
-                        x:Name="CellBorder"
-                        Padding="{TemplateBinding Padding}"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        SnapsToDevicePixels="True">
-                        <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </Border>
+                    <Grid>
+                        <Border
+                            x:Name="CellBorder"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True">
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                        <Border
+                            x:Name="StateBorder"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            IsHitTestVisible="False"
+                            SnapsToDevicePixels="True" />
+                    </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="CellBorder" Property="BorderBrush" Value="{DynamicResource ZenPrimaryBrush}" />
-                            <Setter TargetName="CellBorder" Property="BorderThickness" Value="1" />
-                            <Setter TargetName="CellBorder" Property="Padding" Value="13,0" />
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type zen:ZenDataGrid}}}" />
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsKeyboardFocusWithin" Value="True" />
+                                <Condition Property="zen:ZenDataGrid.IsCellFocusVisualEnabled" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="StateBorder" Property="BorderBrush" Value="{DynamicResource ZenPrimaryBrush}" />
+                            <Setter
+                                TargetName="StateBorder"
+                                Property="BorderThickness"
+                                Value="{Binding CellFocusVisualBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type zen:ZenDataGrid}}}" />
+                        </MultiTrigger>
                         <Trigger Property="Validation.HasError" Value="True">
-                            <Setter TargetName="CellBorder" Property="BorderBrush" Value="{DynamicResource ZenErrorBrush}" />
-                            <Setter TargetName="CellBorder" Property="BorderThickness" Value="2" />
-                            <Setter TargetName="CellBorder" Property="Padding" Value="12,0" />
+                            <Setter TargetName="StateBorder" Property="BorderBrush" Value="{DynamicResource ZenErrorBrush}" />
+                            <Setter
+                                TargetName="StateBorder"
+                                Property="BorderThickness"
+                                Value="{Binding CellValidationBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type zen:ZenDataGrid}}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -162,7 +187,7 @@
     </Style>
 
     <Style x:Key="ZenDataGridRowStyle" TargetType="{x:Type DataGridRow}">
-        <Setter Property="MinHeight" Value="44" />
+        <Setter Property="MinHeight" Value="{DynamicResource ZenDataGridRowMinHeight}" />
         <Setter Property="Background" Value="{DynamicResource ZenSurfaceBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource ZenTextPrimaryBrush}" />
         <Setter Property="BorderThickness" Value="0" />
@@ -202,22 +227,33 @@
                             <Setter TargetName="RowBorder" Property="Background" Value="{DynamicResource ZenDataGridRowHoverBrush}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="RowBorder" Property="Background" Value="{DynamicResource ZenInfoLightBrush}" />
-                            <Setter Property="Foreground" Value="{DynamicResource ZenTextPrimaryBrush}" />
+                            <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type zen:ZenDataGrid}}}" />
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True" />
+                                <Condition Property="zen:ZenDataGrid.IsRowSelectionHighlightEnabled" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="RowBorder" Property="Background" Value="{DynamicResource ZenDataGridRowSelectedBrush}" />
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style x:Key="ZenDataGridStyle" TargetType="{x:Type zen:ZenDataGrid}">
+    <Style
+        x:Key="ZenDataGridStyle"
+        TargetType="{x:Type zen:ZenDataGrid}">
+        <Setter Property="FontSize" Value="{DynamicResource ZenFontSizeBody}" />
         <Setter Property="Background" Value="{DynamicResource ZenSurfaceBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ZenBorderBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource ZenTextPrimaryBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="RowBackground" Value="{DynamicResource ZenSurfaceBrush}" />
         <Setter Property="AlternatingRowBackground" Value="{DynamicResource ZenDataGridAlternatingRowBrush}" />
+        <Setter Property="CellFocusVisualBorderThickness" Value="{DynamicResource ZenDataGridCellFocusVisualBorderThickness}" />
+        <Setter Property="CellValidationBorderThickness" Value="{DynamicResource ZenDataGridCellValidationBorderThickness}" />
         <Setter Property="RowStyle" Value="{StaticResource ZenDataGridRowStyle}" />
         <Setter Property="CellStyle" Value="{StaticResource ZenDataGridCellStyle}" />
         <Setter Property="ColumnHeaderStyle" Value="{StaticResource ZenDataGridColumnHeaderStyle}" />
@@ -332,7 +368,7 @@
                             <Setter TargetName="EmptyPresenter" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="OuterBorder" Property="Opacity" Value="0.55" />
+                            <Setter Property="Opacity" Value="{DynamicResource ZenDisabledInputOpacity}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

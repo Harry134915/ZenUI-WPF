@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:navigation="clr-namespace:ZenUI.Wpf.Gallery.Navigation"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:zen="http://zenui.mnorg.com/zenui-wpf"
+    xmlns:zen="https://zenui.mnorg.cn/xaml/wpf"
     Title="ZenUI Controls Gallery"
     Width="1280"
     Height="800"
@@ -22,8 +22,8 @@
         <Style x:Key="NavigationItemStyle" TargetType="{x:Type RadioButton}">
             <Setter Property="Height" Value="38" />
             <Setter Property="Margin" Value="0,2" />
-            <Setter Property="Foreground" Value="{DynamicResource GallerySidebarItemBrush}" />
-            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Foreground" Value="{DynamicResource ZenTextSecondaryBrush}" />
+            <Setter Property="FontSize" Value="{DynamicResource ZenFontSizeBody}" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
             <Setter Property="Template">
@@ -51,14 +51,14 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="MenuItem" Property="Background" Value="{DynamicResource GallerySidebarItemSelectedBrush}" />
+                                <Setter TargetName="MenuItem" Property="Background" Value="{DynamicResource ZenInfoLightBrush}" />
                                 <Setter TargetName="ActiveIndicator" Property="Visibility" Value="Visible" />
-                                <Setter Property="Foreground" Value="{DynamicResource GalleryOnPrimarySecondaryBrush}" />
-                                <Setter Property="FontWeight" Value="SemiBold" />
+                                <Setter Property="Foreground" Value="{DynamicResource ZenPrimaryBrush}" />
+                                <Setter Property="FontWeight" Value="{DynamicResource ZenFontWeightSemibold}" />
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="MenuItem" Property="Background" Value="{DynamicResource GallerySidebarItemHoverBrush}" />
-                                <Setter Property="Foreground" Value="White" />
+                                <Setter TargetName="MenuItem" Property="Background" Value="{DynamicResource ZenSurfaceHoverBrush}" />
+                                <Setter Property="Foreground" Value="{DynamicResource ZenPrimaryBrush}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -73,24 +73,27 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Border Background="{DynamicResource GallerySidebarBrush}">
-            <Grid Margin="16,0">
+        <Border
+            Background="{DynamicResource ZenSurfaceMutedBrush}"
+            BorderBrush="{DynamicResource ZenDividerBrush}"
+            BorderThickness="0,0,1,0">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <StackPanel Margin="8,28,8,4">
+                <StackPanel Margin="24,28,24,4">
                     <TextBlock
                         FontSize="23"
                         FontWeight="SemiBold"
-                        Foreground="White"
+                        Foreground="{DynamicResource ZenTextPrimaryBrush}"
                         Text="ZenUI" />
                     <TextBlock
                         Margin="0,5,0,0"
                         FontSize="12"
-                        Foreground="{DynamicResource GallerySidebarSecondaryTextBrush}"
+                        Foreground="{DynamicResource ZenTextSecondaryBrush}"
                         Text="Controls Gallery" />
                 </StackPanel>
 
@@ -99,7 +102,9 @@
                     Margin="0,18,0,8"
                     HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto">
-                    <ItemsControl ItemsSource="{Binding MenuItems}">
+                    <ItemsControl
+                        Margin="16,0"
+                        ItemsSource="{Binding MenuItems}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <RadioButton
@@ -114,11 +119,11 @@
                     </ItemsControl>
                 </ScrollViewer>
 
-                <StackPanel Grid.Row="2" Margin="8,8,8,24">
+                <StackPanel Grid.Row="2" Margin="24,8,24,24">
                     <TextBlock
                         Margin="0,0,0,8"
                         FontSize="12"
-                        Foreground="{DynamicResource GallerySidebarSecondaryTextBrush}"
+                        Foreground="{DynamicResource ZenTextSecondaryBrush}"
                         Text="界面主题" />
                     <zen:ZenComboBox
                         Height="34"
@@ -132,9 +137,25 @@
                         </zen:ZenComboBox.ItemTemplate>
                     </zen:ZenComboBox>
                     <TextBlock
+                        Margin="0,12,0,8"
+                        FontSize="{DynamicResource ZenFontSizeCaption}"
+                        Foreground="{DynamicResource ZenTextSecondaryBrush}"
+                        Text="界面密度" />
+                    <zen:ZenComboBox
+                        Height="34"
+                        AutomationProperties.Name="界面密度"
+                        ItemsSource="{Binding DensityOptions}"
+                        SelectedItem="{Binding SelectedDensityOption, Mode=TwoWay}">
+                        <zen:ZenComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayName}" />
+                            </DataTemplate>
+                        </zen:ZenComboBox.ItemTemplate>
+                    </zen:ZenComboBox>
+                    <TextBlock
                         Margin="0,12,0,0"
                         FontSize="11"
-                        Foreground="{DynamicResource GallerySidebarFooterTextBrush}"
+                        Foreground="{DynamicResource ZenTextPlaceholderBrush}"
                         Text="ZenUI.Wpf · Controls Gallery" />
                 </StackPanel>
             </Grid>

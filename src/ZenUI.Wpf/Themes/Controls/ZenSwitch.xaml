@@ -4,9 +4,9 @@
     xmlns:zen="clr-namespace:ZenUI.Wpf.Controls">
 
     <!--
-        Let WPF display this adorner only for keyboard-initiated focus.  A
-        template trigger on IsKeyboardFocused also fires after a mouse click,
-        which makes the switch look as though it has a permanent blue outline.
+        仅让 WPF 在键盘触发焦点时显示此装饰器。
+        IsKeyboardFocused 模板触发器在鼠标点击后也会触发，
+        会让开关看起来始终带有蓝色轮廓。
     -->
     <Style x:Key="ZenSwitchFocusVisualStyle" TargetType="{x:Type Control}">
         <Setter Property="Template">
@@ -20,48 +20,42 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ZenSwitchStyle" TargetType="{x:Type zen:ZenSwitch}">
-        <Setter Property="Width" Value="64" />
-        <Setter Property="Height" Value="30" />
+    <Style
+        x:Key="ZenSwitchStyle"
+        TargetType="{x:Type zen:ZenSwitch}">
+        <Setter Property="FontSize" Value="{DynamicResource ZenFontSizeBody}" />
+        <Setter Property="Width" Value="{DynamicResource ZenSwitchWidth}" />
+        <Setter Property="Height" Value="{DynamicResource ZenSwitchHeight}" />
         <Setter Property="MinWidth" Value="48" />
-        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="MinHeight" Value="{DynamicResource ZenSwitchHeight}" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="FocusVisualStyle" Value="{StaticResource ZenSwitchFocusVisualStyle}" />
+        <Setter Property="ThemeBackground" Value="{DynamicResource ZenTextPlaceholderBrush}" />
+        <Setter Property="Background" Value="{Binding ThemeBackground, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Foreground" Value="{DynamicResource ZenControlThumbBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ZenControlThumbBorderBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type zen:ZenSwitch}">
-                    <Grid x:Name="Track" SnapsToDevicePixels="True">
-                        <!--  Two 30px circles joined by a rectangular center form a true capsule.  -->
-                        <Rectangle
-                            x:Name="TrackMiddle"
-                            Margin="15,0"
-                            Fill="{DynamicResource ZenTextPlaceholderBrush}" />
-                        <Ellipse
-                            x:Name="TrackLeft"
-                            Width="30"
-                            HorizontalAlignment="Left"
-                            Fill="{DynamicResource ZenTextPlaceholderBrush}" />
-                        <Ellipse
-                            x:Name="TrackRight"
-                            Width="30"
-                            HorizontalAlignment="Right"
-                            Fill="{DynamicResource ZenTextPlaceholderBrush}" />
+                    <Border
+                        x:Name="Track"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="{TemplateBinding CapsuleCornerRadius}"
+                        SnapsToDevicePixels="True">
                         <Grid
                             x:Name="ThumbHost"
                             Width="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
                             HorizontalAlignment="Left">
                             <Ellipse
-                                Margin="4"
-                                Fill="White"
-                                Stroke="#18000000"
+                                Margin="{DynamicResource ZenSwitchThumbMargin}"
+                                Fill="{TemplateBinding Foreground}"
+                                Stroke="{TemplateBinding BorderBrush}"
                                 StrokeThickness="1" />
                         </Grid>
-                    </Grid>
+                    </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="TrackMiddle" Property="Fill" Value="{DynamicResource ZenPrimaryBrush}" />
-                            <Setter TargetName="TrackLeft" Property="Fill" Value="{DynamicResource ZenPrimaryBrush}" />
-                            <Setter TargetName="TrackRight" Property="Fill" Value="{DynamicResource ZenPrimaryBrush}" />
+                            <Setter Property="ThemeBackground" Value="{DynamicResource ZenPrimaryBrush}" />
                             <Setter TargetName="ThumbHost" Property="HorizontalAlignment" Value="Right" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -76,7 +70,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="0.4" />
+                <Setter Property="Opacity" Value="{DynamicResource ZenDisabledActionOpacity}" />
                 <Setter Property="Cursor" Value="Arrow" />
             </Trigger>
         </Style.Triggers>
