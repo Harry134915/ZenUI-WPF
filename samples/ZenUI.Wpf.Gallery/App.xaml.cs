@@ -35,13 +35,20 @@ namespace ZenUI.Wpf.Gallery
             containerRegistry.RegisterForNavigation<SwitchView>(NavigationKeys.Switch);
             containerRegistry.RegisterForNavigation<CheckBoxView>(NavigationKeys.CheckBox);
             containerRegistry.RegisterForNavigation<RadioButtonView>(NavigationKeys.RadioButton);
+            containerRegistry.RegisterForNavigation<RadioGroupView>(NavigationKeys.RadioGroup);
             containerRegistry.RegisterForNavigation<ComboBoxView>(NavigationKeys.ComboBox);
             containerRegistry.RegisterForNavigation<ListBoxView>(NavigationKeys.ListBox);
+            containerRegistry.RegisterForNavigation<CalendarView>(NavigationKeys.Calendar);
             containerRegistry.RegisterForNavigation<DatePickerView>(NavigationKeys.DatePicker);
+            containerRegistry.RegisterForNavigation<TimePickerView>(NavigationKeys.TimePicker);
             containerRegistry.RegisterForNavigation<DataGridView>(NavigationKeys.DataGrid);
             containerRegistry.RegisterForNavigation<SliderView>(NavigationKeys.Slider);
             containerRegistry.RegisterForNavigation<ProgressBarView>(NavigationKeys.ProgressBar);
+            containerRegistry.RegisterForNavigation<LoadingView>(NavigationKeys.Loading);
             containerRegistry.RegisterForNavigation<AlertView>(NavigationKeys.Alert);
+            containerRegistry.RegisterForNavigation<ExpanderView>(NavigationKeys.Expander);
+            containerRegistry.RegisterForNavigation<PopoverView>(NavigationKeys.Popover);
+            containerRegistry.RegisterForNavigation<ContextMenuView>(NavigationKeys.ContextMenu);
         }
 
         protected override void OnInitialized()

@@ -41,7 +41,9 @@ namespace ZenUI.Wpf.Tests.Controls
             var passwordBox = new TestZenPasswordBox();
             var slider = new TestZenSlider();
             var progressBar = new TestZenProgressBar();
+            var loading = new TestZenLoading();
             var alert = new TestZenAlert();
+            var expander = new TestZenExpander();
 
             Assert.AreEqual(typeof(ZenButton), button.ExposedDefaultStyleKey);
             Assert.AreEqual(typeof(ZenSwitch), @switch.ExposedDefaultStyleKey);
@@ -55,7 +57,9 @@ namespace ZenUI.Wpf.Tests.Controls
             Assert.AreEqual(typeof(ZenPasswordBox), passwordBox.ExposedDefaultStyleKey);
             Assert.AreEqual(typeof(ZenSlider), slider.ExposedDefaultStyleKey);
             Assert.AreEqual(typeof(ZenProgressBar), progressBar.ExposedDefaultStyleKey);
+            Assert.AreEqual(typeof(ZenLoading), loading.ExposedDefaultStyleKey);
             Assert.AreEqual(typeof(ZenAlert), alert.ExposedDefaultStyleKey);
+            Assert.AreEqual(typeof(ZenExpander), expander.ExposedDefaultStyleKey);
             Assert.AreEqual(ButtonVariant.Primary, button.Variant);
             Assert.AreEqual(ButtonAppearance.Filled, button.Appearance);
             Assert.AreEqual(string.Empty, textBox.Watermark);
@@ -64,6 +68,8 @@ namespace ZenUI.Wpf.Tests.Controls
             Assert.IsNull(textBox.LeadingContentTemplate);
             Assert.IsNull(textBox.TrailingContent);
             Assert.IsNull(textBox.TrailingContentTemplate);
+            Assert.AreEqual(18d, checkBox.IndicatorSize);
+            Assert.AreEqual(18d, radioButton.IndicatorSize);
             Assert.AreEqual(string.Empty, comboBox.Watermark);
             Assert.AreEqual(new CornerRadius(8), listBox.CornerRadius);
             Assert.AreEqual(string.Empty, datePicker.Watermark);
@@ -74,13 +80,17 @@ namespace ZenUI.Wpf.Tests.Controls
             Assert.AreEqual(new Thickness(1), dataGrid.CellFocusVisualBorderThickness);
             Assert.AreEqual(new Thickness(2), dataGrid.CellValidationBorderThickness);
             Assert.AreEqual("暂无数据", dataGrid.EmptyContent);
-            Assert.IsFalse(passwordBox.IsPasswordRevealEnabled);
+            Assert.IsFalse(passwordBox.IsPasswordRevealButtonEnabled);
             Assert.IsFalse(passwordBox.IsPasswordRevealed);
             Assert.IsNull(passwordBox.LeadingContent);
             Assert.IsNull(passwordBox.LeadingContentTemplate);
             Assert.IsNull(passwordBox.TrailingContent);
             Assert.IsNull(passwordBox.TrailingContentTemplate);
-            Assert.AreEqual(AlertVariant.Info, alert.Variant);
+            Assert.AreEqual(18d, alert.IconSize);
+            Assert.AreEqual(AlertSeverity.Info, alert.Severity);
+            Assert.AreEqual(new CornerRadius(8), expander.CornerRadius);
+            Assert.AreEqual(new Thickness(14, 12, 14, 12), expander.HeaderPadding);
+            Assert.AreEqual(16d, expander.GlyphSize);
         }
 
         [TestMethod]
@@ -106,7 +116,9 @@ namespace ZenUI.Wpf.Tests.Controls
             Assert.IsInstanceOfType<Style>(dictionary[typeof(ZenPasswordBox)]);
             Assert.IsInstanceOfType<Style>(dictionary[typeof(ZenSlider)]);
             Assert.IsInstanceOfType<Style>(dictionary[typeof(ZenProgressBar)]);
+            Assert.IsInstanceOfType<Style>(dictionary[typeof(ZenLoading)]);
             Assert.IsInstanceOfType<Style>(dictionary[typeof(ZenAlert)]);
+            Assert.IsInstanceOfType<Style>(dictionary[typeof(ZenExpander)]);
             Assert.IsInstanceOfType<Style>(dictionary[typeof(ScrollBar)]);
             Assert.IsInstanceOfType<Style>(dictionary["ZenScrollBarStyle"]);
             Assert.IsNotNull(dictionary["ZenPrimaryBrush"]);
@@ -116,17 +128,22 @@ namespace ZenUI.Wpf.Tests.Controls
             Assert.IsNotNull(dictionary["ZenControlThumbBrush"]);
             Assert.IsNotNull(dictionary["ZenControlThumbBorderBrush"]);
             Assert.IsNotNull(dictionary["ZenListBoxItemSelectedBrush"]);
+            Assert.IsNotNull(dictionary["ZenRadioSegmentedSelectedBrush"]);
+            Assert.IsNotNull(dictionary["ZenRadioSegmentedSelectedHoverBrush"]);
+            Assert.IsNotNull(dictionary["ZenRadioSegmentedSelectedForegroundBrush"]);
             Assert.IsInstanceOfType<Style>(dictionary["ZenListBoxStyle"]);
             Assert.IsInstanceOfType<Style>(dictionary["ZenListBoxItemStyle"]);
             Assert.AreEqual(36d, dictionary["ZenInputControlMinHeight"]);
             Assert.AreEqual(new Thickness(8, 4, 8, 4), dictionary["ZenInputControlPadding"]);
             Assert.AreEqual(new CornerRadius(6), dictionary["ZenInputControlCornerRadius"]);
+            Assert.AreEqual(new CornerRadius(9), dictionary["ZenInputFocusVisualCornerRadius"]);
             Assert.AreEqual(new Thickness(1), dictionary["ZenControlBorderThickness"]);
             Assert.AreEqual(new Thickness(-2), dictionary["ZenFocusVisualMargin"]);
             Assert.AreEqual(new Thickness(1), dictionary["ZenFocusVisualBorderThickness"]);
-            Assert.AreEqual(new Thickness(5, 0, 5, 0), dictionary["ZenButtonPadding"]);
-            Assert.AreEqual(new CornerRadius(10), dictionary["ZenButtonCornerRadius"]);
-            Assert.AreEqual(new CornerRadius(13), dictionary["ZenButtonFocusVisualCornerRadius"]);
+            Assert.AreEqual(36d, dictionary["ZenButtonMinHeight"]);
+            Assert.AreEqual(new Thickness(10, 4, 10, 4), dictionary["ZenButtonPadding"]);
+            Assert.AreEqual(new CornerRadius(8), dictionary["ZenButtonCornerRadius"]);
+            Assert.AreEqual(new CornerRadius(11), dictionary["ZenButtonFocusVisualCornerRadius"]);
             Assert.AreEqual(new Thickness(4), dictionary["ZenListBoxPadding"]);
             Assert.AreEqual(new CornerRadius(8), dictionary["ZenListBoxCornerRadius"]);
             Assert.AreEqual(new Thickness(12, 9, 12, 9), dictionary["ZenListBoxItemPadding"]);
@@ -135,29 +152,60 @@ namespace ZenUI.Wpf.Tests.Controls
             Assert.AreEqual(12d, dictionary["ZenScrollBarThickness"]);
             Assert.AreEqual(6d, dictionary["ZenScrollBarTrackThickness"]);
             Assert.AreEqual(32d, dictionary["ZenScrollBarThumbMinLength"]);
-            Assert.AreEqual(new Thickness(3, 0, 3, 0), dictionary["ZenVerticalScrollBarThumbMargin"]);
-            Assert.AreEqual(new Thickness(0, 3, 0, 3), dictionary["ZenHorizontalScrollBarThumbMargin"]);
+            Assert.AreEqual(new Thickness(0, 4, 0, 4), dictionary["ZenVerticalScrollBarMargin"]);
+            Assert.AreEqual(new Thickness(4, 0, 4, 0), dictionary["ZenHorizontalScrollBarMargin"]);
+            Assert.AreEqual(new Thickness(0, 0, 1, 0), dictionary["ZenVerticalScrollBarTrackMargin"]);
+            Assert.AreEqual(new Thickness(0, 0, 0, 1), dictionary["ZenHorizontalScrollBarTrackMargin"]);
+            Assert.AreEqual(new Thickness(5, 0, 1, 0), dictionary["ZenVerticalScrollBarThumbMargin"]);
+            Assert.AreEqual(new Thickness(0, 5, 0, 1), dictionary["ZenHorizontalScrollBarThumbMargin"]);
             Assert.AreEqual(new CornerRadius(3), dictionary["ZenScrollBarCornerRadius"]);
+            Assert.AreEqual(34d, dictionary["ZenNumberBoxSpinButtonWidth"]);
             Assert.AreEqual(new Thickness(0, 4, 0, 0), dictionary["ZenComboBoxPopupMargin"]);
             Assert.AreEqual(new Thickness(4), dictionary["ZenComboBoxPopupPadding"]);
             Assert.AreEqual(new CornerRadius(6), dictionary["ZenComboBoxPopupCornerRadius"]);
+            Assert.AreEqual(new Thickness(0, 4, 0, 8), dictionary["ZenTimePickerPopupMargin"]);
+            Assert.AreEqual(new Thickness(6), dictionary["ZenTimePickerPopupPadding"]);
+            Assert.AreEqual(new CornerRadius(8), dictionary["ZenTimePickerPopupCornerRadius"]);
+            Assert.AreEqual(64d, dictionary["ZenTimePickerColumnWidth"]);
+            Assert.AreEqual(74d, dictionary["ZenTimePickerPeriodColumnWidth"]);
+            Assert.AreEqual(196d, dictionary["ZenTimePickerListHeight"]);
+            Assert.AreEqual(36d, dictionary["ZenTimePickerItemHeight"]);
+            Assert.AreEqual(new Thickness(0, 2, 0, 2), dictionary["ZenTimePickerItemMargin"]);
             Assert.AreEqual(44d, dictionary["ZenDataGridColumnHeaderHeight"]);
             Assert.AreEqual(44d, dictionary["ZenDataGridRowMinHeight"]);
             Assert.AreEqual(new Thickness(14, 0, 14, 0), dictionary["ZenDataGridCellPadding"]);
             Assert.AreEqual(new Thickness(1), dictionary["ZenDataGridCellFocusVisualBorderThickness"]);
             Assert.AreEqual(new Thickness(2), dictionary["ZenDataGridCellValidationBorderThickness"]);
-            Assert.AreEqual(48d, dictionary["ZenCalendarDayButtonWidth"]);
-            Assert.AreEqual(44d, dictionary["ZenCalendarDayButtonHeight"]);
+            Assert.AreEqual(368d, dictionary["ZenCalendarPopupWidth"]);
+            Assert.AreEqual(376d, dictionary["ZenCalendarPopupHeight"]);
+            Assert.AreEqual(new Thickness(8), dictionary["ZenCalendarContentMargin"]);
             Assert.AreEqual(new Thickness(12, 16, 12, 16), dictionary["ZenCalendarButtonPadding"]);
             Assert.AreEqual(40d, dictionary["ZenCalendarNavigationButtonSize"]);
-            Assert.AreEqual(64d, dictionary["ZenSwitchWidth"]);
+            Assert.AreEqual(60d, dictionary["ZenSwitchWidth"]);
             Assert.AreEqual(30d, dictionary["ZenSwitchHeight"]);
             Assert.AreEqual(new Thickness(4), dictionary["ZenSwitchThumbMargin"]);
+            Assert.AreEqual(18d, dictionary["ZenSelectionIndicatorSize"]);
+            Assert.AreEqual(new CornerRadius(4), dictionary["ZenSelectionIndicatorCornerRadius"]);
+            Assert.AreEqual(new CornerRadius(4), dictionary["ZenSelectionFocusVisualCornerRadius"]);
+            Assert.AreEqual(36d, dictionary["ZenRadioItemMinHeight"]);
+            Assert.AreEqual(new Thickness(14, 0, 14, 0), dictionary["ZenRadioItemPadding"]);
+            Assert.AreEqual(new CornerRadius(8), dictionary["ZenRadioItemCornerRadius"]);
+            Assert.AreEqual(new CornerRadius(6), dictionary["ZenRadioItemInnerCornerRadius"]);
+            Assert.AreEqual(new CornerRadius(11), dictionary["ZenRadioItemFocusVisualCornerRadius"]);
             Assert.AreEqual(18d, dictionary["ZenSliderThumbSize"]);
             Assert.AreEqual(4d, dictionary["ZenSliderTrackThickness"]);
             Assert.AreEqual(24d, dictionary["ZenSliderCrossAxisMinSize"]);
             Assert.AreEqual(8d, dictionary["ZenProgressBarThickness"]);
+            Assert.AreEqual(24d, dictionary["ZenLoadingIndicatorSize"]);
+            Assert.AreEqual(2d, dictionary["ZenLoadingIndicatorThickness"]);
+            Assert.AreEqual(10d, dictionary["ZenLoadingContentSpacing"]);
+            Assert.IsNotNull(dictionary["ZenLoadingOverlayBrush"]);
             Assert.AreEqual(new Thickness(14, 11, 14, 11), dictionary["ZenAlertPadding"]);
+            Assert.AreEqual(new CornerRadius(6), dictionary["ZenAlertCornerRadius"]);
+            Assert.AreEqual(new Thickness(14, 12, 14, 12), dictionary["ZenExpanderHeaderPadding"]);
+            Assert.AreEqual(new Thickness(14, 10, 14, 14), dictionary["ZenExpanderContentPadding"]);
+            Assert.AreEqual(new CornerRadius(8), dictionary["ZenExpanderCornerRadius"]);
+            Assert.AreEqual(16d, dictionary["ZenExpanderGlyphSize"]);
             Assert.AreEqual(0.35d, dictionary["ZenFocusVisualOpacity"]);
             Assert.AreEqual(0.35d, dictionary["ZenDisabledAuxiliaryActionOpacity"]);
             Assert.AreEqual(0.4d, dictionary["ZenDisabledActionOpacity"]);
@@ -200,7 +248,9 @@ namespace ZenUI.Wpf.Tests.Controls
                 new ZenDataGrid(),
                 new ZenSlider(),
                 new ZenProgressBar(),
-                new ZenAlert()
+                new ZenLoading(),
+                new ZenAlert(),
+                new ZenExpander { Header = "Expander" }
             };
             var panel = new StackPanel();
             foreach (var control in controls)
@@ -244,6 +294,93 @@ namespace ZenUI.Wpf.Tests.Controls
         }
 
         [TestMethod]
+        public void SelectionControlsApplyCustomIndicatorSize()
+        {
+            var checkBox = new ZenCheckBox
+            {
+                Content = "CheckBox",
+                IndicatorSize = 28d
+            };
+            var radioButton = new ZenRadioButton
+            {
+                Content = "RadioButton",
+                IndicatorSize = 30d
+            };
+            var panel = new StackPanel();
+            panel.Children.Add(checkBox);
+            panel.Children.Add(radioButton);
+            var window = CreateTestWindow(panel, 300, 120);
+            window.Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri(
+                    "/ZenUI.Wpf;component/Themes/Generic.xaml",
+                    UriKind.Relative)
+            });
+
+            try
+            {
+                window.Show();
+                window.UpdateLayout();
+
+                var checkBoxIndicator =
+                    checkBox.Template.FindName("IndicatorHost", checkBox) as FrameworkElement;
+                var radioButtonIndicator =
+                    radioButton.Template.FindName("IndicatorHost", radioButton) as FrameworkElement;
+
+                Assert.IsNotNull(checkBoxIndicator);
+                Assert.IsNotNull(radioButtonIndicator);
+                Assert.AreEqual(28d, checkBoxIndicator.ActualWidth, 0.1d);
+                Assert.AreEqual(28d, checkBoxIndicator.ActualHeight, 0.1d);
+                Assert.AreEqual(30d, radioButtonIndicator.ActualWidth, 0.1d);
+                Assert.AreEqual(30d, radioButtonIndicator.ActualHeight, 0.1d);
+            }
+            finally
+            {
+                window.Close();
+            }
+        }
+
+        [TestMethod]
+        public void AlertAppliesCustomIconSize()
+        {
+            var alert = new ZenAlert
+            {
+                Content = "Saved",
+                IconSize = 28d
+            };
+            var window = CreateTestWindow(alert, 300, 100);
+            window.Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri(
+                    "/ZenUI.Wpf;component/Themes/Generic.xaml",
+                    UriKind.Relative)
+            });
+
+            try
+            {
+                window.Show();
+                window.UpdateLayout();
+
+                var iconHost = alert.Template.FindName("IconHost", alert) as FrameworkElement;
+                var iconText = alert.Template.FindName("IconText", alert) as FrameworkElement;
+
+                Assert.IsNotNull(iconHost);
+                Assert.IsNotNull(iconText);
+                Assert.AreEqual(28d, iconHost.ActualWidth, 0.1d);
+                Assert.AreEqual(28d, iconHost.ActualHeight, 0.1d);
+
+                var renderedTextBounds = iconText
+                    .TransformToAncestor(iconHost)
+                    .TransformBounds(new Rect(iconText.RenderSize));
+                Assert.IsGreaterThan(iconText.ActualHeight, renderedTextBounds.Height);
+            }
+            finally
+            {
+                window.Close();
+            }
+        }
+
+        [TestMethod]
         public void HighContrastKeepsDisabledControlsAtFullOpacity()
         {
             var button = new ZenButton { IsEnabled = false };
@@ -258,7 +395,10 @@ namespace ZenUI.Wpf.Tests.Controls
             var slider = new ZenSlider { IsEnabled = false };
             var scrollBar = new ScrollBar { IsEnabled = false, Height = 80 };
             var datePicker = new ZenDatePicker { IsEnabled = false };
+            var timePicker = new ZenTimePicker { IsEnabled = false };
             var dataGrid = new ZenDataGrid { IsEnabled = false, Height = 80 };
+            var progressBar = new ZenProgressBar { IsEnabled = false };
+            var expander = new ZenExpander { Header = "Disabled", IsEnabled = false };
             listBox.Items.Add("Disabled item");
 
             var panel = new StackPanel();
@@ -274,7 +414,10 @@ namespace ZenUI.Wpf.Tests.Controls
             panel.Children.Add(slider);
             panel.Children.Add(scrollBar);
             panel.Children.Add(datePicker);
+            panel.Children.Add(timePicker);
             panel.Children.Add(dataGrid);
+            panel.Children.Add(progressBar);
+            panel.Children.Add(expander);
 
             var window = CreateTestWindow(panel, 420, 800);
             window.Resources.MergedDictionaries.Add(new ResourceDictionary
@@ -301,7 +444,14 @@ namespace ZenUI.Wpf.Tests.Controls
                 Assert.AreEqual(0.4d, slider.Opacity);
                 Assert.AreEqual(0.45d, scrollBar.Opacity);
                 Assert.AreEqual(0.55d, datePicker.Opacity);
+                Assert.AreEqual(0.6d, timePicker.Opacity);
+                var timePickerDropDownButton =
+                    timePicker.Template.FindName("DropDownButton", timePicker) as ToggleButton;
+                Assert.IsNotNull(timePickerDropDownButton);
+                Assert.AreEqual(1d, timePickerDropDownButton.Opacity);
                 Assert.AreEqual(0.55d, dataGrid.Opacity);
+                Assert.AreEqual(0.45d, progressBar.Opacity);
+                Assert.AreEqual(0.65d, expander.Opacity);
 
                 ZenThemeManager.ApplyTheme(window.Resources, ZenTheme.HighContrast, false);
                 window.UpdateLayout();
@@ -318,7 +468,11 @@ namespace ZenUI.Wpf.Tests.Controls
                 Assert.AreEqual(1d, slider.Opacity);
                 Assert.AreEqual(1d, scrollBar.Opacity);
                 Assert.AreEqual(1d, datePicker.Opacity);
+                Assert.AreEqual(1d, timePicker.Opacity);
+                Assert.AreEqual(1d, timePickerDropDownButton.Opacity);
                 Assert.AreEqual(1d, dataGrid.Opacity);
+                Assert.AreEqual(1d, progressBar.Opacity);
+                Assert.AreEqual(1d, expander.Opacity);
             }
             finally
             {
@@ -342,7 +496,8 @@ namespace ZenUI.Wpf.Tests.Controls
                 "ZenSwitchFocusVisualStyle",
                 "ZenTextBoxFocusVisualStyle",
                 "ZenSelectionFocusVisualStyle",
-                "ZenListBoxItemFocusVisualStyle"
+                "ZenListBoxItemFocusVisualStyle",
+                "ZenExpanderHeaderFocusVisualStyle"
             };
 
             foreach (var styleKey in styleKeys)
@@ -382,7 +537,7 @@ namespace ZenUI.Wpf.Tests.Controls
             var datePicker = new ZenDatePicker { Watermark = "请选择日期" };
             var slider = new ZenSlider { Value = 50 };
             var progressBar = new ZenProgressBar { Value = 60 };
-            var alert = new ZenAlert { Content = "操作成功", Variant = AlertVariant.Success };
+            var alert = new ZenAlert { Content = "操作成功", Severity = AlertSeverity.Success };
 
             var panel = new StackPanel();
             panel.Children.Add(button);
@@ -454,7 +609,7 @@ namespace ZenUI.Wpf.Tests.Controls
             {
                 LeadingContent = passwordBoxLeading,
                 TrailingContent = passwordBoxTrailing,
-                IsPasswordRevealEnabled = true
+                IsPasswordRevealButtonEnabled = true
             };
             var panel = new StackPanel();
             panel.Children.Add(textBox);
@@ -570,6 +725,8 @@ namespace ZenUI.Wpf.Tests.Controls
             Assert.AreEqual(AutomationControlType.DataGrid, new TestZenDataGrid().ExposedAutomationPeer.GetAutomationControlType());
             Assert.AreEqual(AutomationControlType.Slider, new TestZenSlider().ExposedAutomationPeer.GetAutomationControlType());
             Assert.AreEqual(AutomationControlType.ProgressBar, new TestZenProgressBar().ExposedAutomationPeer.GetAutomationControlType());
+            Assert.AreEqual(AutomationControlType.ProgressBar, new TestZenLoading().ExposedAutomationPeer.GetAutomationControlType());
+            Assert.AreEqual(AutomationControlType.Group, new TestZenExpander().ExposedAutomationPeer.GetAutomationControlType());
         }
     }
 }

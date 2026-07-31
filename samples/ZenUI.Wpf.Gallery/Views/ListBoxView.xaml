@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:gallery="clr-namespace:ZenUI.Wpf.Gallery.Controls"
     xmlns:zen="https://zenui.mnorg.cn/xaml/wpf">
-    <ScrollViewer Padding="40" HorizontalContentAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer Padding="{StaticResource GalleryPagePadding}" HorizontalContentAlignment="Stretch" VerticalScrollBarVisibility="Auto">
         <StackPanel>
             <gallery:PageHeader Description="用于持续展示一组项目，并支持单选或多选。" Title="ListBox 列表框" />
 
@@ -74,7 +74,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel>
-                                    <TextBlock FontWeight="SemiBold" Text="ZenUI.Wpf" />
+                                    <TextBlock FontWeight="{DynamicResource ZenFontWeightSemibold}" Text="ZenUI.Wpf" />
                                     <TextBlock Margin="0,4,0,0" Style="{StaticResource GallerySupportingTextStyle}" Text="核心控件库 · net472 / net8.0-windows" />
                                 </StackPanel>
                                 <Border Grid.Column="1" Padding="9,4" VerticalAlignment="Center" Background="{DynamicResource ZenSuccessLightBrush}" CornerRadius="10">
@@ -89,7 +89,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel>
-                                    <TextBlock FontWeight="SemiBold" Text="ZenUI.Wpf.Gallery" />
+                                    <TextBlock FontWeight="{DynamicResource ZenFontWeightSemibold}" Text="ZenUI.Wpf.Gallery" />
                                     <TextBlock Margin="0,4,0,0" Style="{StaticResource GallerySupportingTextStyle}" Text="组件与交互状态目录" />
                                 </StackPanel>
                                 <Border Grid.Column="1" Padding="9,4" VerticalAlignment="Center" Background="{DynamicResource ZenInfoLightBrush}" CornerRadius="10">
@@ -121,6 +121,7 @@
                     </zen:ZenListBox>
                 </StackPanel>
             </Border>
+            <gallery:PropertyTable ControlType="{x:Type zen:ZenListBox}" />
         </StackPanel>
     </ScrollViewer>
 </UserControl>

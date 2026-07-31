@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:gallery="clr-namespace:ZenUI.Wpf.Gallery.Controls"
     xmlns:zen="https://zenui.mnorg.cn/xaml/wpf">
-    <ScrollViewer Padding="40" HorizontalContentAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer Padding="{StaticResource GalleryPagePadding}" HorizontalContentAlignment="Stretch" VerticalScrollBarVisibility="Auto">
         <StackPanel>
             <gallery:PageHeader Description="支持范围约束、可配置步长和两种按钮布局。" Title="NumberBox 数字输入框" />
 
@@ -20,6 +20,7 @@
                         HorizontalAlignment="Left"
                         Maximum="20"
                         Minimum="0"
+                        SpinButtonWidth="42"
                         Step="1"
                         Value="5" />
                 </StackPanel>
@@ -35,11 +36,42 @@
                     <zen:ZenNumberBox
                         Width="180"
                         HorizontalAlignment="Left"
-                        ButtonMode="Vertical"
+                        SpinButtonLayout="Vertical"
                         Maximum="10"
                         Minimum="0"
+                        SpinButtonWidth="32"
                         Step="0.5"
                         Value="2.5" />
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource GalleryCardStyle}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource SectionTitleStyle}" Text="自定义按钮内容" />
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        Foreground="{DynamicResource ZenTextSecondaryBrush}"
+                        Text="通过 IncreaseButtonContent 和 DecreaseButtonContent 将默认图标替换为“加”和“减”。" />
+                    <StackPanel Orientation="Horizontal">
+                        <zen:ZenNumberBox
+                            Width="180"
+                            DecreaseButtonContent="减"
+                            IncreaseButtonContent="加"
+                            Maximum="20"
+                            Minimum="0"
+                            SpinButtonWidth="42"
+                            Value="5" />
+                        <zen:ZenNumberBox
+                            Width="180"
+                            Margin="16,0,0,0"
+                            DecreaseButtonContent="减"
+                            IncreaseButtonContent="加"
+                            Maximum="20"
+                            Minimum="0"
+                            SpinButtonLayout="Vertical"
+                            SpinButtonWidth="32"
+                            Value="5" />
+                    </StackPanel>
                 </StackPanel>
             </Border>
 
@@ -55,7 +87,7 @@
                         <zen:ZenNumberBox
                             Width="180"
                             Margin="16,0,0,0"
-                            ButtonMode="Vertical"
+                            SpinButtonLayout="Vertical"
                             IsEnabled="False"
                             Value="12" />
                     </StackPanel>
@@ -65,6 +97,7 @@
                         Text="左：只读文本（按钮可用）　右：禁用" />
                 </StackPanel>
             </Border>
+            <gallery:PropertyTable ControlType="{x:Type zen:ZenNumberBox}" />
         </StackPanel>
     </ScrollViewer>
 </UserControl>

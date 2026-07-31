@@ -5,7 +5,7 @@
     xmlns:gallery="clr-namespace:ZenUI.Wpf.Gallery.Controls"
     xmlns:zen="https://zenui.mnorg.cn/xaml/wpf">
     <ScrollViewer
-        Padding="40"
+        Padding="{StaticResource GalleryPagePadding}"
         HorizontalContentAlignment="Stretch"
         VerticalScrollBarVisibility="Auto">
         <StackPanel>
@@ -25,14 +25,8 @@
             <Border Style="{StaticResource GalleryCardStyle}">
                 <StackPanel>
                     <TextBlock Style="{StaticResource SectionTitleStyle}" Text="前后置内容" />
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="320" />
-                            <ColumnDefinition Width="24" />
-                            <ColumnDefinition Width="320" />
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel>
+                    <WrapPanel>
+                        <StackPanel Width="320" Margin="0,0,24,18">
                             <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="搜索框 · 前置图标与可交互后置按钮" />
                             <zen:ZenTextBox
                                 x:Name="SearchInput"
@@ -63,7 +57,7 @@
                             </zen:ZenTextBox>
                         </StackPanel>
 
-                        <StackPanel Grid.Column="2">
+                        <StackPanel Width="320" Margin="0,0,0,18">
                             <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="地址 · 文本前缀与后缀" />
                             <zen:ZenTextBox
                                 Height="44"
@@ -85,7 +79,7 @@
                                 </zen:ZenTextBox.TrailingContent>
                             </zen:ZenTextBox>
                         </StackPanel>
-                    </Grid>
+                    </WrapPanel>
                 </StackPanel>
             </Border>
 
@@ -165,21 +159,7 @@
                 </StackPanel>
             </Border>
 
-            <Border Style="{StaticResource GalleryCardStyle}">
-                <StackPanel>
-                    <TextBlock Style="{StaticResource SectionTitleStyle}" Text="推荐用法" />
-                    <Border
-                        Padding="16"
-                        Background="{DynamicResource ZenSurfaceMutedBrush}"
-                        CornerRadius="8">
-                        <TextBlock
-                            FontFamily="Consolas"
-                            Foreground="{DynamicResource ZenTextPrimaryBrush}"
-                            Text="&lt;zen:ZenTextBox Watermark=&quot;请输入关键字&quot;&gt;&#x0a;    &lt;zen:ZenTextBox.LeadingContent&gt;&#x0a;        &lt;Path Margin=&quot;8,0,0,0&quot;&#x0a;              Data=&quot;{StaticResource SearchIcon}&quot; /&gt;&#x0a;    &lt;/zen:ZenTextBox.LeadingContent&gt;&#x0a;&lt;/zen:ZenTextBox&gt;"
-                            TextWrapping="Wrap" />
-                    </Border>
-                </StackPanel>
-            </Border>
+            <gallery:PropertyTable ControlType="{x:Type zen:ZenTextBox}" />
         </StackPanel>
     </ScrollViewer>
 </UserControl>

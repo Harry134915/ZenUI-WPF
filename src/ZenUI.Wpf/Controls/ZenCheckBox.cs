@@ -19,6 +19,9 @@ namespace ZenUI.Wpf.Controls
                 new FrameworkPropertyMetadata(SelfType));
         }
 
+        /// <summary>
+        /// 获取或设置选中状态使用的强调色画刷。
+        /// </summary>
         [Bindable(true)]
         public Brush AccentBrush
         {
@@ -26,9 +29,15 @@ namespace ZenUI.Wpf.Controls
             set { SetValue(AccentBrushProperty, value); }
         }
 
+        /// <summary>
+        /// 标识 <see cref="AccentBrush"/> 依赖属性。
+        /// </summary>
         public static readonly DependencyProperty AccentBrushProperty =
             RegisterBrush(nameof(AccentBrush));
 
+        /// <summary>
+        /// 获取或设置选中标记的前景画刷。
+        /// </summary>
         [Bindable(true)]
         public Brush GlyphBrush
         {
@@ -36,9 +45,39 @@ namespace ZenUI.Wpf.Controls
             set { SetValue(GlyphBrushProperty, value); }
         }
 
+        /// <summary>
+        /// 标识 <see cref="GlyphBrush"/> 依赖属性。
+        /// </summary>
         public static readonly DependencyProperty GlyphBrushProperty =
             RegisterBrush(nameof(GlyphBrush));
 
+        /// <summary>
+        /// 获取或设置左侧选择标识的边长。该值必须为大于或等于零的有限值。
+        /// </summary>
+        [Bindable(true)]
+        public double IndicatorSize
+        {
+            get { return (double)GetValue(IndicatorSizeProperty); }
+            set { SetValue(IndicatorSizeProperty, value); }
+        }
+
+        /// <summary>
+        /// 标识 <see cref="IndicatorSize"/> 依赖属性。
+        /// </summary>
+        public static readonly DependencyProperty IndicatorSizeProperty =
+            DependencyProperty.Register(
+                nameof(IndicatorSize),
+                typeof(double),
+                SelfType,
+                new FrameworkPropertyMetadata(
+                    18d,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure |
+                    FrameworkPropertyMetadataOptions.AffectsRender),
+                IsValidIndicatorSize);
+
+        /// <summary>
+        /// 获取或设置由复选状态提供的默认背景画刷。
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public Brush ThemeBackground
         {
@@ -46,9 +85,15 @@ namespace ZenUI.Wpf.Controls
             set { SetValue(ThemeBackgroundProperty, value); }
         }
 
+        /// <summary>
+        /// 标识 <see cref="ThemeBackground"/> 依赖属性。
+        /// </summary>
         public static readonly DependencyProperty ThemeBackgroundProperty =
             RegisterBrush(nameof(ThemeBackground));
 
+        /// <summary>
+        /// 获取或设置由复选状态提供的默认边框画刷。
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public Brush ThemeBorderBrush
         {
@@ -56,6 +101,9 @@ namespace ZenUI.Wpf.Controls
             set { SetValue(ThemeBorderBrushProperty, value); }
         }
 
+        /// <summary>
+        /// 标识 <see cref="ThemeBorderBrush"/> 依赖属性。
+        /// </summary>
         public static readonly DependencyProperty ThemeBorderBrushProperty =
             RegisterBrush(nameof(ThemeBorderBrush));
 
@@ -68,6 +116,14 @@ namespace ZenUI.Wpf.Controls
                 new FrameworkPropertyMetadata(
                     null,
                     FrameworkPropertyMetadataOptions.AffectsRender));
+        }
+
+        private static bool IsValidIndicatorSize(object value)
+        {
+            var size = (double)value;
+            return !double.IsNaN(size) &&
+                !double.IsInfinity(size) &&
+                size >= 0d;
         }
     }
 }

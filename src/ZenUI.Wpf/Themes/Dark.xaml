@@ -5,6 +5,10 @@
     <SolidColorBrush x:Key="ZenPrimaryBrush" Color="#7C9CFF" />
     <SolidColorBrush x:Key="ZenPrimaryHoverBrush" Color="#91ABFF" />
     <SolidColorBrush x:Key="ZenPrimaryPressedBrush" Color="#6887E8" />
+    <SolidColorBrush x:Key="ZenNeutralActionBrush" Color="#F2F3F5" />
+    <SolidColorBrush x:Key="ZenNeutralActionHoverBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="ZenNeutralActionPressedBrush" Color="#D9DDE5" />
+    <SolidColorBrush x:Key="ZenOnNeutralActionBrush" Color="#1D2129" />
     <SolidColorBrush x:Key="ZenSuccessBrush" Color="#49C77E" />
     <SolidColorBrush x:Key="ZenSuccessActionBrush" Color="#32A965" />
     <SolidColorBrush x:Key="ZenSuccessActionHoverBrush" Color="#43BA74" />
@@ -24,8 +28,8 @@
     <SolidColorBrush x:Key="ZenDividerBrush" Color="#3A414D" />
     <SolidColorBrush x:Key="ZenScrollBarTrackBrush" Color="#303641" />
     <SolidColorBrush x:Key="ZenScrollBarThumbBrush" Color="#6B7483" />
-    <SolidColorBrush x:Key="ZenScrollBarThumbHoverBrush" Color="#91ABFF" />
-    <SolidColorBrush x:Key="ZenScrollBarThumbPressedBrush" Color="#7C9CFF" />
+    <SolidColorBrush x:Key="ZenScrollBarThumbHoverBrush" Color="#818B99" />
+    <SolidColorBrush x:Key="ZenScrollBarThumbPressedBrush" Color="#98A1AD" />
     <SolidColorBrush x:Key="ZenTextPrimaryBrush" Color="#F2F3F5" />
     <SolidColorBrush x:Key="ZenTextSecondaryBrush" Color="#C4C9D1" />
     <SolidColorBrush x:Key="ZenTextPlaceholderBrush" Color="#929AA8" />
@@ -43,7 +47,12 @@
     <SolidColorBrush x:Key="ZenListBoxItemSelectedForegroundBrush" Color="#A8BBFF" />
     <SolidColorBrush x:Key="ZenListBoxItemSelectedInactiveBrush" Color="#343B4A" />
     <SolidColorBrush x:Key="ZenListBoxItemSelectedInactiveForegroundBrush" Color="#C4C9D1" />
+    <SolidColorBrush x:Key="ZenRadioSegmentedSelectedBrush" Color="#263557" />
+    <SolidColorBrush x:Key="ZenRadioSegmentedSelectedHoverBrush" Color="#304269" />
+    <SolidColorBrush x:Key="ZenRadioSegmentedSelectedForegroundBrush" Color="#A8BBFF" />
+    <SolidColorBrush x:Key="ZenContextMenuItemHoverForegroundBrush" Color="#F2F3F5" />
     <SolidColorBrush x:Key="ZenDataGridAlternatingRowBrush" Color="#232832" />
     <SolidColorBrush x:Key="ZenDataGridRowHoverBrush" Color="#30394B" />
     <SolidColorBrush x:Key="ZenDataGridRowSelectedBrush" Color="#343B4A" />
+    <SolidColorBrush x:Key="ZenLoadingOverlayBrush" Color="#E61D2129" />
 </ResourceDictionary>

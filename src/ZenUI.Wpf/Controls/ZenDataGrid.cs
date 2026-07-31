@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace ZenUI.Wpf.Controls
 {
@@ -55,8 +56,49 @@ namespace ZenUI.Wpf.Controls
                 typeof(object),
                 typeof(ZenDataGrid),
                 new FrameworkPropertyMetadata("暂无数据"));
+
         /// <summary>
-        /// 获取或设置选中行是否使用主题选择高亮。
+        /// 获取或设置列标题区域的背景画刷。
+        /// </summary>
+        [Bindable(true)]
+        public Brush ColumnHeaderBackground
+        {
+            get { return (Brush)GetValue(ColumnHeaderBackgroundProperty); }
+            set { SetValue(ColumnHeaderBackgroundProperty, value); }
+        }
+
+        /// <summary>
+        /// 标识 <see cref="ColumnHeaderBackground"/> 依赖属性。
+        /// </summary>
+        public static readonly DependencyProperty ColumnHeaderBackgroundProperty =
+            DependencyProperty.Register(
+                nameof(ColumnHeaderBackground),
+                typeof(Brush),
+                typeof(ZenDataGrid),
+                new FrameworkPropertyMetadata(null));
+
+        /// <summary>
+        /// 获取或设置列标题内容的前景画刷。
+        /// </summary>
+        [Bindable(true)]
+        public Brush ColumnHeaderForeground
+        {
+            get { return (Brush)GetValue(ColumnHeaderForegroundProperty); }
+            set { SetValue(ColumnHeaderForegroundProperty, value); }
+        }
+
+        /// <summary>
+        /// 标识 <see cref="ColumnHeaderForeground"/> 依赖属性。
+        /// </summary>
+        public static readonly DependencyProperty ColumnHeaderForegroundProperty =
+            DependencyProperty.Register(
+                nameof(ColumnHeaderForeground),
+                typeof(Brush),
+                typeof(ZenDataGrid),
+                new FrameworkPropertyMetadata(null));
+
+        /// <summary>
+        /// 获取或设置一个值，该值指示选中行是否使用主题选择高亮。
         /// </summary>
         [Bindable(true)]
         public bool IsRowSelectionHighlightEnabled
@@ -77,18 +119,34 @@ namespace ZenUI.Wpf.Controls
                     false,
                     FrameworkPropertyMetadataOptions.Inherits));
 
+        /// <summary>
+        /// 获取一个值，该值指示指定元素是否使用主题选择高亮。
+        /// </summary>
+        /// <param name="element">要从中读取属性值的元素。</param>
+        /// <returns>
+        /// 如果指定元素使用主题选择高亮，则为 <see langword="true"/>；否则为
+        /// <see langword="false"/>。
+        /// </returns>
         public static bool GetIsRowSelectionHighlightEnabled(DependencyObject element)
         {
             return (bool)element.GetValue(IsRowSelectionHighlightEnabledProperty);
         }
 
+        /// <summary>
+        /// 设置指定元素是否使用主题选择高亮。
+        /// </summary>
+        /// <param name="element">要在其上设置属性值的元素。</param>
+        /// <param name="value">
+        /// 如果使用主题选择高亮，则为 <see langword="true"/>；否则为
+        /// <see langword="false"/>。
+        /// </param>
         public static void SetIsRowSelectionHighlightEnabled(DependencyObject element, bool value)
         {
             element.SetValue(IsRowSelectionHighlightEnabledProperty, value);
         }
 
         /// <summary>
-        /// 获取或设置当前单元格是否显示键盘焦点边框。
+        /// 获取或设置一个值，该值指示当前单元格是否显示键盘焦点边框。
         /// </summary>
         [Bindable(true)]
         public bool IsCellFocusVisualEnabled
@@ -109,11 +167,27 @@ namespace ZenUI.Wpf.Controls
                     false,
                     FrameworkPropertyMetadataOptions.Inherits));
 
+        /// <summary>
+        /// 获取一个值，该值指示指定元素是否显示单元格键盘焦点边框。
+        /// </summary>
+        /// <param name="element">要从中读取属性值的元素。</param>
+        /// <returns>
+        /// 如果显示单元格键盘焦点边框，则为 <see langword="true"/>；否则为
+        /// <see langword="false"/>。
+        /// </returns>
         public static bool GetIsCellFocusVisualEnabled(DependencyObject element)
         {
             return (bool)element.GetValue(IsCellFocusVisualEnabledProperty);
         }
 
+        /// <summary>
+        /// 设置指定元素是否显示单元格键盘焦点边框。
+        /// </summary>
+        /// <param name="element">要在其上设置属性值的元素。</param>
+        /// <param name="value">
+        /// 如果显示单元格键盘焦点边框，则为 <see langword="true"/>；否则为
+        /// <see langword="false"/>。
+        /// </param>
         public static void SetIsCellFocusVisualEnabled(DependencyObject element, bool value)
         {
             element.SetValue(IsCellFocusVisualEnabledProperty, value);
@@ -141,18 +215,28 @@ namespace ZenUI.Wpf.Controls
                     new Thickness(1),
                     FrameworkPropertyMetadataOptions.Inherits));
 
+        /// <summary>
+        /// 获取指定元素的单元格焦点视觉边框宽度。
+        /// </summary>
+        /// <param name="element">要从中读取属性值的元素。</param>
+        /// <returns>指定元素的单元格焦点视觉边框宽度。</returns>
         public static Thickness GetCellFocusVisualBorderThickness(DependencyObject element)
         {
             return (Thickness)element.GetValue(CellFocusVisualBorderThicknessProperty);
         }
 
+        /// <summary>
+        /// 设置指定元素的单元格焦点视觉边框宽度。
+        /// </summary>
+        /// <param name="element">要在其上设置属性值的元素。</param>
+        /// <param name="value">要设置的边框宽度。</param>
         public static void SetCellFocusVisualBorderThickness(DependencyObject element, Thickness value)
         {
             element.SetValue(CellFocusVisualBorderThicknessProperty, value);
         }
 
         /// <summary>
-        /// 获取或设置单元格校验错误的边框宽度。
+        /// 获取或设置单元格验证错误的边框宽度。
         /// </summary>
         [Bindable(true)]
         public Thickness CellValidationBorderThickness
@@ -173,11 +257,21 @@ namespace ZenUI.Wpf.Controls
                     new Thickness(2),
                     FrameworkPropertyMetadataOptions.Inherits));
 
+        /// <summary>
+        /// 获取指定元素的单元格验证错误边框宽度。
+        /// </summary>
+        /// <param name="element">要从中读取属性值的元素。</param>
+        /// <returns>指定元素的单元格验证错误边框宽度。</returns>
         public static Thickness GetCellValidationBorderThickness(DependencyObject element)
         {
             return (Thickness)element.GetValue(CellValidationBorderThicknessProperty);
         }
 
+        /// <summary>
+        /// 设置指定元素的单元格验证错误边框宽度。
+        /// </summary>
+        /// <param name="element">要在其上设置属性值的元素。</param>
+        /// <param name="value">要设置的边框宽度。</param>
         public static void SetCellValidationBorderThickness(DependencyObject element, Thickness value)
         {
             element.SetValue(CellValidationBorderThicknessProperty, value);

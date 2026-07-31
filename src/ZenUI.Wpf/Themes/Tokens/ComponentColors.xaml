@@ -9,8 +9,8 @@
     <!-- 滚动条 -->
     <SolidColorBrush x:Key="ZenScrollBarTrackBrush" Color="#EEF1F5" />
     <SolidColorBrush x:Key="ZenScrollBarThumbBrush" Color="#AAB2C0" />
-    <SolidColorBrush x:Key="ZenScrollBarThumbHoverBrush" Color="#7892E5" />
-    <SolidColorBrush x:Key="ZenScrollBarThumbPressedBrush" Color="#3D63D2" />
+    <SolidColorBrush x:Key="ZenScrollBarThumbHoverBrush" Color="#8F99A8" />
+    <SolidColorBrush x:Key="ZenScrollBarThumbPressedBrush" Color="#778292" />
 
     <!-- 列表框与选择容器 -->
     <SolidColorBrush x:Key="ZenListBoxItemHoverBrush" Color="#EEF3FA" />
@@ -20,8 +20,19 @@
     <SolidColorBrush x:Key="ZenListBoxItemSelectedInactiveBrush" Color="#F1F4FA" />
     <SolidColorBrush x:Key="ZenListBoxItemSelectedInactiveForegroundBrush" Color="#4E5969" />
 
+    <!-- 分段单选组 -->
+    <SolidColorBrush x:Key="ZenRadioSegmentedSelectedBrush" Color="#EEF2FF" />
+    <SolidColorBrush x:Key="ZenRadioSegmentedSelectedHoverBrush" Color="#E3E9FB" />
+    <SolidColorBrush x:Key="ZenRadioSegmentedSelectedForegroundBrush" Color="#3D63D2" />
+
+    <!-- 右键菜单 -->
+    <SolidColorBrush x:Key="ZenContextMenuItemHoverForegroundBrush" Color="#1D2129" />
+
     <!-- 数据网格 -->
     <SolidColorBrush x:Key="ZenDataGridAlternatingRowBrush" Color="#FBFCFD" />
     <SolidColorBrush x:Key="ZenDataGridRowHoverBrush" Color="#F4F6FD" />
     <SolidColorBrush x:Key="ZenDataGridRowSelectedBrush" Color="#F1F4FA" />
+
+    <!-- 加载状态 -->
+    <SolidColorBrush x:Key="ZenLoadingOverlayBrush" Color="#E6FFFFFF" />
 </ResourceDictionary>

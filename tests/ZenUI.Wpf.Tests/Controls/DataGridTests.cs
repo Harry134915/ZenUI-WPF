@@ -68,6 +68,110 @@ namespace ZenUI.Wpf.Tests.Controls
         }
 
         [TestMethod]
+        public void DataGridColumnHeaderHeightCanOverrideThemeDefault()
+        {
+            var dataGrid = new ZenDataGrid
+            {
+                Height = 120,
+                ItemsSource = new[] { new { Name = "成员" } }
+            };
+            dataGrid.Columns.Add(new DataGridTextColumn
+            {
+                Header = "名称",
+                Binding = new Binding("Name")
+            });
+            var window = CreateTestWindow(dataGrid, 240, 180);
+
+            try
+            {
+                window.Show();
+                window.UpdateLayout();
+
+                var style = new Style(typeof(ZenDataGrid), dataGrid.Style);
+                style.Setters.Add(new Setter(DataGrid.ColumnHeaderHeightProperty, 60d));
+                dataGrid.Style = style;
+                window.UpdateLayout();
+
+                var header = FindVisualDescendants<DataGridColumnHeader>(dataGrid)
+                    .FirstOrDefault(candidate => candidate.Column == dataGrid.Columns[0]);
+                Assert.IsNotNull(header);
+                Assert.AreEqual(60d, dataGrid.ColumnHeaderHeight);
+                Assert.AreEqual(60d, header.ActualHeight);
+            }
+            finally
+            {
+                window.Close();
+            }
+        }
+
+        [TestMethod]
+        public void DataGridAppliesColumnHeaderBrushes()
+        {
+            var headerBackground = new SolidColorBrush(Color.FromRgb(0x12, 0x34, 0x56));
+            var headerForeground = new SolidColorBrush(Color.FromRgb(0xFE, 0xDC, 0xBA));
+            var dataGrid = new ZenDataGrid
+            {
+                AutoGenerateColumns = false,
+                ColumnHeaderBackground = headerBackground,
+                ColumnHeaderForeground = headerForeground,
+                HeadersVisibility = DataGridHeadersVisibility.All,
+                Height = 120,
+                ItemsSource = new[] { new { Name = "成员" } },
+                RowHeaderWidth = 32
+            };
+            var column = new ZenDataGridTextColumn
+            {
+                Binding = new Binding("Name"),
+                CellHorizontalContentAlignment = HorizontalAlignment.Right,
+                CellVerticalContentAlignment = VerticalAlignment.Bottom,
+                Header = "名称",
+                HeaderHorizontalContentAlignment = HorizontalAlignment.Center,
+                HeaderVerticalContentAlignment = VerticalAlignment.Bottom
+            };
+            dataGrid.Columns.Add(column);
+            var window = CreateTestWindow(dataGrid, 240, 180);
+
+            try
+            {
+                window.Show();
+                window.UpdateLayout();
+
+                var header = FindVisualDescendants<DataGridColumnHeader>(dataGrid)
+                    .FirstOrDefault(candidate => candidate.Column == dataGrid.Columns[0]);
+                Assert.IsNotNull(header);
+                Assert.AreSame(headerBackground, header.Background);
+                Assert.AreSame(headerForeground, header.Foreground);
+                Assert.AreEqual(HorizontalAlignment.Center, header.HorizontalContentAlignment);
+                Assert.AreEqual(VerticalAlignment.Bottom, header.VerticalContentAlignment);
+
+                var cell = FindVisualDescendants<DataGridCell>(dataGrid)
+                    .FirstOrDefault(candidate => candidate.Column == column);
+                Assert.IsNotNull(cell);
+                Assert.AreEqual(HorizontalAlignment.Right, cell.HorizontalContentAlignment);
+                Assert.AreEqual(VerticalAlignment.Bottom, cell.VerticalContentAlignment);
+                cell.ApplyTemplate();
+                var contentPresenter = FindVisualDescendant<ContentPresenter>(cell);
+                Assert.IsNotNull(contentPresenter);
+                Assert.AreEqual(HorizontalAlignment.Right, contentPresenter.HorizontalAlignment);
+                Assert.AreEqual(VerticalAlignment.Bottom, contentPresenter.VerticalAlignment);
+
+                var scrollViewer = dataGrid.Template.FindName("DG_ScrollViewer", dataGrid) as ScrollViewer;
+                Assert.IsNotNull(scrollViewer);
+                scrollViewer.ApplyTemplate();
+                var selectAllButton = scrollViewer.Template.FindName(
+                    "PART_SelectAllButton",
+                    scrollViewer) as Button;
+                Assert.IsNotNull(selectAllButton);
+                Assert.AreSame(headerBackground, selectAllButton.Background);
+                Assert.AreSame(headerForeground, selectAllButton.Foreground);
+            }
+            finally
+            {
+                window.Close();
+            }
+        }
+
+        [TestMethod]
         public void DataGridPreservesSelectionLayoutAndVirtualizationContracts()
         {
             var rows = Enumerable.Range(0, 1000)
@@ -236,6 +340,57 @@ namespace ZenUI.Wpf.Tests.Controls
                 onClick.Invoke(header, null);
                 window.UpdateLayout();
                 Assert.AreEqual(ListSortDirection.Ascending, nameColumn.SortDirection);
+            }
+            finally
+            {
+                window.Close();
+            }
+        }
+
+        [TestMethod]
+        public void DataGridForwardsMouseWheelToOuterScrollerWhenItCannotScroll()
+        {
+            var dataGrid = new ZenDataGrid
+            {
+                Height = 120,
+                ItemsSource = new[] { new EditableRow(1, "成员") }
+            };
+            var content = new StackPanel();
+            content.Children.Add(dataGrid);
+            content.Children.Add(new Border { Height = 600 });
+            var outerScroller = new ScrollViewer
+            {
+                Height = 180,
+                Content = content,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto
+            };
+            var window = CreateTestWindow(outerScroller, 320, 240);
+
+            try
+            {
+                window.Show();
+                window.UpdateLayout();
+
+                var forwardedDelta = 0;
+                outerScroller.AddHandler(
+                    UIElement.MouseWheelEvent,
+                    new MouseWheelEventHandler(
+                        (sender, args) => forwardedDelta = args.Delta),
+                    true);
+
+                var firstRow =
+                    (DataGridRow)dataGrid.ItemContainerGenerator.ContainerFromIndex(0);
+                var wheelEvent = new MouseWheelEventArgs(
+                    Mouse.PrimaryDevice,
+                    Environment.TickCount,
+                    -120)
+                {
+                    RoutedEvent = UIElement.PreviewMouseWheelEvent
+                };
+                firstRow.RaiseEvent(wheelEvent);
+
+                Assert.IsTrue(wheelEvent.Handled);
+                Assert.AreEqual(-120, forwardedDelta);
             }
             finally
             {

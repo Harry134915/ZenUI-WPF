@@ -64,7 +64,7 @@ ZenDensityManager.ApplyDensity(
 | `Standard` | 默认规格，保持 ZenUI 的标准视觉 |
 | `Comfortable` | 需要更大间距和命中区域的界面 |
 
-Density 会更新输入控件、Button、ListBox、ScrollBar、ComboBox Popup、DataGrid、Calendar、Switch、Slider、ProgressBar 和 Alert 的相关尺寸，不改变颜色、字体或圆角语义。
+Density 会更新输入控件、Button、ListBox、ScrollBar、ComboBox Popup、ContextMenu、DataGrid、Calendar、Switch、Slider、ProgressBar 和 Alert 的相关尺寸，不改变颜色、字体或圆角语义。
 
 ## 覆盖公开 Token
 
@@ -97,10 +97,13 @@ Density 会更新输入控件、Button、ListBox、ScrollBar、ComboBox Popup、
 | --- | --- |
 | 主色与交互色 | `ZenPrimaryBrush`、`ZenPrimaryHoverBrush`、`ZenPrimaryPressedBrush` |
 | 输入控件高度与内边距 | `ZenInputControlMinHeight`、`ZenInputControlPadding` |
+| 按钮高度与内边距 | `ZenButtonMinHeight`、`ZenButtonPadding` |
 | DataGrid 表头、行和单元格 | `ZenDataGridColumnHeaderHeight`、`ZenDataGridRowMinHeight`、`ZenDataGridCellPadding` |
-| Calendar 日期格与导航 | `ZenCalendarDayButtonWidth`、`ZenCalendarDayButtonHeight`、`ZenCalendarNavigationButtonSize` |
+| Calendar 弹层与导航 | `ZenCalendarPopupWidth`、`ZenCalendarPopupHeight`、`ZenCalendarNavigationButtonSize` |
 | Switch 与 Slider | `ZenSwitchWidth`、`ZenSwitchHeight`、`ZenSliderThumbSize`、`ZenSliderTrackThickness` |
 | Alert 内边距 | `ZenAlertPadding` |
+| Expander 布局 | `ZenExpanderHeaderPadding`、`ZenExpanderContentPadding`、`ZenExpanderCornerRadius`、`ZenExpanderGlyphSize` |
+| ContextMenu 表面与菜单项 | `ZenContextMenuPadding`、`ZenContextMenuItemMinHeight`、`ZenContextMenuItemPadding` |
 
 完整 Key 和当前解析值可在 Gallery 的“设计 Token”页面查看。
 
@@ -128,7 +131,7 @@ DatePicker 的 Calendar 位于独立 Popup 中。颜色与 Density 尺寸由 `Ze
 <zen:ZenDatePicker CalendarStyle="{StaticResource AppCalendarStyle}" />
 ```
 
-单个 DatePicker 也可以通过 `CalendarDayButtonWidth`、`CalendarDayButtonHeight`、`CalendarButtonPadding` 和 `CalendarNavigationButtonSize` 覆盖默认 Density 结果。
+单个 DatePicker 也可以通过 `CalendarPopupWidth`、`CalendarPopupHeight`、`CalendarFontSize`、`CalendarButtonPadding` 和 `CalendarNavigationButtonSize` 覆盖默认结果。日期按钮不固定宽高，而是自动填充月份网格。
 
 ## 从硬编码样式迁移
 

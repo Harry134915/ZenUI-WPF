@@ -37,6 +37,7 @@ namespace ZenUI.Wpf.Controls
         private RepeatButton verticalIncreaseButton;
         private RepeatButton verticalDecreaseButton;
         private bool isUpdatingText;
+        private bool isUpdatingValueFromText;
 
         static ZenNumberBox()
         {
@@ -45,6 +46,9 @@ namespace ZenUI.Wpf.Controls
                 new FrameworkPropertyMetadata(SelfType));
         }
 
+        /// <summary>
+        /// 初始化 <see cref="ZenNumberBox"/> 类的新实例。
+        /// </summary>
         public ZenNumberBox()
         {
             IsKeyboardFocusWithinChanged += OnIsKeyboardFocusWithinChanged;
@@ -52,7 +56,7 @@ namespace ZenUI.Wpf.Controls
         }
 
         /// <summary>
-        /// 获取或设置当前值。
+        /// 获取或设置当前值。编辑器中的文本可解析为有效数字时会立即更新该值。
         /// </summary>
         [Bindable(true)]
         public decimal Value
@@ -143,24 +147,167 @@ namespace ZenUI.Wpf.Controls
         /// 获取或设置增减按钮的布局方式。
         /// </summary>
         [Bindable(true)]
-        public NumberBoxButtonMode ButtonMode
+        public SpinButtonLayout SpinButtonLayout
         {
-            get { return (NumberBoxButtonMode)GetValue(ButtonModeProperty); }
-            set { SetValue(ButtonModeProperty, value); }
+            get { return (SpinButtonLayout)GetValue(SpinButtonLayoutProperty); }
+            set { SetValue(SpinButtonLayoutProperty, value); }
         }
 
         /// <summary>
-        /// 标识 <see cref="ButtonMode"/> 依赖属性。
+        /// 标识 <see cref="SpinButtonLayout"/> 依赖属性。
         /// </summary>
-        public static readonly DependencyProperty ButtonModeProperty =
+        public static readonly DependencyProperty SpinButtonLayoutProperty =
             DependencyProperty.Register(
-                nameof(ButtonMode),
-                typeof(NumberBoxButtonMode),
+                nameof(SpinButtonLayout),
+                typeof(SpinButtonLayout),
                 SelfType,
-                new FrameworkPropertyMetadata(NumberBoxButtonMode.Horizontal));
+                new FrameworkPropertyMetadata(SpinButtonLayout.Horizontal));
 
         /// <summary>
-        /// 获取或设置控件是否禁止直接编辑文本。增减按钮仍然可用。
+        /// 获取或设置增减按钮的宽度。该值必须为大于或等于零的有限值。
+        /// </summary>
+        [Bindable(true)]
+        public double SpinButtonWidth
+        {
+            get { return (double)GetValue(SpinButtonWidthProperty); }
+            set { SetValue(SpinButtonWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// 标识 <see cref="SpinButtonWidth"/> 依赖属性。
+        /// </summary>
+        public static readonly DependencyProperty SpinButtonWidthProperty =
+            DependencyProperty.Register(
+                nameof(SpinButtonWidth),
+                typeof(double),
+                SelfType,
+                new FrameworkPropertyMetadata(
+                    34d,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure),
+                IsValidSpinButtonWidth);
+
+        /// <summary>
+        /// 获取或设置增加按钮中显示的自定义内容。值为 <see langword="null"/> 时显示默认图标。
+        /// </summary>
+        [Bindable(true)]
+        public object IncreaseButtonContent
+        {
+            get { return GetValue(IncreaseButtonContentProperty); }
+            set { SetValue(IncreaseButtonContentProperty, value); }
+        }
+
+        /// <summary>
+        /// 标识 <see cref="IncreaseButtonContent"/> 依赖属性。
+        /// </summary>
+        public static readonly DependencyProperty IncreaseButtonContentProperty =
+            DependencyProperty.Register(
+                nameof(IncreaseButtonContent),
+                typeof(object),
+                SelfType,
+                new FrameworkPropertyMetadata(null));
+
+        /// <summary>
+        /// 获取或设置用于显示 <see cref="IncreaseButtonContent"/> 的数据模板。
+        /// </summary>
+        [Bindable(true)]
+        public DataTemplate IncreaseButtonContentTemplate
+        {
+            get { return (DataTemplate)GetValue(IncreaseButtonContentTemplateProperty); }
+            set { SetValue(IncreaseButtonContentTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// 标识 <see cref="IncreaseButtonContentTemplate"/> 依赖属性。
+        /// </summary>
+        public static readonly DependencyProperty IncreaseButtonContentTemplateProperty =
+            DependencyProperty.Register(
+                nameof(IncreaseButtonContentTemplate),
+                typeof(DataTemplate),
+                SelfType,
+                new FrameworkPropertyMetadata(null));
+
+        /// <summary>
+        /// 获取或设置减少按钮中显示的自定义内容。值为 <see langword="null"/> 时显示默认图标。
+        /// </summary>
+        [Bindable(true)]
+        public object DecreaseButtonContent
+        {
+            get { return GetValue(DecreaseButtonContentProperty); }
+            set { SetValue(DecreaseButtonContentProperty, value); }
+        }
+
+        /// <summary>
+        /// 标识 <see cref="DecreaseButtonContent"/> 依赖属性。
+        /// </summary>
+        public static readonly DependencyProperty DecreaseButtonContentProperty =
+            DependencyProperty.Register(
+                nameof(DecreaseButtonContent),
+                typeof(object),
+                SelfType,
+                new FrameworkPropertyMetadata(null));
+
+        /// <summary>
+        /// 获取或设置用于显示 <see cref="DecreaseButtonContent"/> 的数据模板。
+        /// </summary>
+        [Bindable(true)]
+        public DataTemplate DecreaseButtonContentTemplate
+        {
+            get { return (DataTemplate)GetValue(DecreaseButtonContentTemplateProperty); }
+            set { SetValue(DecreaseButtonContentTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// 标识 <see cref="DecreaseButtonContentTemplate"/> 依赖属性。
+        /// </summary>
+        public static readonly DependencyProperty DecreaseButtonContentTemplateProperty =
+            DependencyProperty.Register(
+                nameof(DecreaseButtonContentTemplate),
+                typeof(DataTemplate),
+                SelfType,
+                new FrameworkPropertyMetadata(null));
+
+        /// <summary>
+        /// 获取或设置在用户点击数字输入区域时执行的命令。
+        /// </summary>
+        [Bindable(true)]
+        public ICommand EditorClickCommand
+        {
+            get { return (ICommand)GetValue(EditorClickCommandProperty); }
+            set { SetValue(EditorClickCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// 标识 <see cref="EditorClickCommand"/> 依赖属性。
+        /// </summary>
+        public static readonly DependencyProperty EditorClickCommandProperty =
+            DependencyProperty.Register(
+                nameof(EditorClickCommand),
+                typeof(ICommand),
+                SelfType,
+                new FrameworkPropertyMetadata(null));
+
+        /// <summary>
+        /// 获取或设置传递给 <see cref="EditorClickCommand"/> 的参数。
+        /// </summary>
+        [Bindable(true)]
+        public object EditorClickCommandParameter
+        {
+            get { return GetValue(EditorClickCommandParameterProperty); }
+            set { SetValue(EditorClickCommandParameterProperty, value); }
+        }
+
+        /// <summary>
+        /// 标识 <see cref="EditorClickCommandParameter"/> 依赖属性。
+        /// </summary>
+        public static readonly DependencyProperty EditorClickCommandParameterProperty =
+            DependencyProperty.Register(
+                nameof(EditorClickCommandParameter),
+                typeof(object),
+                SelfType,
+                new FrameworkPropertyMetadata(null));
+
+        /// <summary>
+        /// 获取或设置一个值，该值指示是否禁止直接编辑文本。增减按钮仍然可用。
         /// </summary>
         [Bindable(true)]
         public bool IsReadOnly
@@ -198,6 +345,14 @@ namespace ZenUI.Wpf.Controls
                 typeof(RoutedPropertyChangedEventHandler<decimal>),
                 SelfType);
 
+        private static bool IsValidSpinButtonWidth(object value)
+        {
+            var width = (double)value;
+            return !double.IsNaN(width) &&
+                !double.IsInfinity(width) &&
+                width >= 0d;
+        }
+
         /// <inheritdoc />
         public override void OnApplyTemplate()
         {
@@ -223,6 +378,7 @@ namespace ZenUI.Wpf.Controls
             UpdateButtonStates();
         }
 
+        /// <inheritdoc />
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
             base.OnPreviewKeyDown(e);
@@ -243,6 +399,7 @@ namespace ZenUI.Wpf.Controls
             }
         }
 
+        /// <inheritdoc />
         protected override AutomationPeer OnCreateAutomationPeer()
         {
             return new ZenNumberBoxAutomationPeer(this);
@@ -279,7 +436,11 @@ namespace ZenUI.Wpf.Controls
         private static void OnValueChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
             var owner = (ZenNumberBox)dependencyObject;
-            owner.UpdateText();
+            if (!owner.isUpdatingValueFromText)
+            {
+                owner.UpdateText();
+            }
+
             owner.UpdateButtonStates();
             owner.RaiseEvent(new RoutedPropertyChangedEventArgs<decimal>(
                 (decimal)e.OldValue,
@@ -302,13 +463,51 @@ namespace ZenUI.Wpf.Controls
             CommitInput();
             try
             {
-                Value = delta > 0m
-                    ? Math.Min(Maximum, checked(Value + delta))
-                    : Math.Max(Minimum, checked(Value + delta));
+                SetCurrentValue(
+                    ValueProperty,
+                    delta > 0m
+                        ? Math.Min(Maximum, checked(Value + delta))
+                        : Math.Max(Minimum, checked(Value + delta)));
             }
             catch (OverflowException)
             {
-                Value = delta > 0m ? Maximum : Minimum;
+                SetCurrentValue(ValueProperty, delta > 0m ? Maximum : Minimum);
+            }
+        }
+
+        private void OnTextBoxTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var activeTextBox = GetActiveTextBox();
+            if (activeTextBox == null ||
+                isUpdatingText ||
+                IsReadOnly ||
+                !ReferenceEquals(sender, activeTextBox) ||
+                !decimal.TryParse(
+                    activeTextBox.Text,
+                    NumberStyles.Number,
+                    CultureInfo.CurrentCulture,
+                    out var parsedValue))
+            {
+                return;
+            }
+
+            isUpdatingValueFromText = true;
+            try
+            {
+                SetCurrentValue(ValueProperty, parsedValue);
+            }
+            finally
+            {
+                isUpdatingValueFromText = false;
+            }
+
+            if (Value != parsedValue)
+            {
+                UpdateText();
+            }
+            else
+            {
+                UpdateInactiveTextBox(activeTextBox);
             }
         }
 
@@ -331,6 +530,16 @@ namespace ZenUI.Wpf.Controls
             CommitInput();
         }
 
+        private void OnEditorMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var command = EditorClickCommand;
+            var parameter = EditorClickCommandParameter;
+            if (command != null && command.CanExecute(parameter))
+            {
+                command.Execute(parameter);
+            }
+        }
+
         private void OnIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (!(bool)e.NewValue)
@@ -346,9 +555,7 @@ namespace ZenUI.Wpf.Controls
 
         private void CommitInput()
         {
-            var activeTextBox = ButtonMode == NumberBoxButtonMode.Vertical
-                ? verticalTextBox
-                : textBox;
+            var activeTextBox = GetActiveTextBox();
             if (activeTextBox == null || isUpdatingText || IsReadOnly)
             {
                 return;
@@ -360,10 +567,17 @@ namespace ZenUI.Wpf.Controls
                 CultureInfo.CurrentCulture,
                 out var parsedValue))
             {
-                Value = parsedValue;
+                SetCurrentValue(ValueProperty, parsedValue);
             }
 
             UpdateText();
+        }
+
+        private TextBox GetActiveTextBox()
+        {
+            return SpinButtonLayout == SpinButtonLayout.Vertical
+                ? verticalTextBox
+                : textBox;
         }
 
         private void UpdateText()
@@ -371,6 +585,13 @@ namespace ZenUI.Wpf.Controls
             isUpdatingText = true;
             UpdateTextBox(textBox);
             UpdateTextBox(verticalTextBox);
+            isUpdatingText = false;
+        }
+
+        private void UpdateInactiveTextBox(TextBox activeTextBox)
+        {
+            isUpdatingText = true;
+            UpdateTextBox(ReferenceEquals(activeTextBox, textBox) ? verticalTextBox : textBox);
             isUpdatingText = false;
         }
 
@@ -415,8 +636,13 @@ namespace ZenUI.Wpf.Controls
         {
             if (target != null)
             {
+                target.TextChanged += OnTextBoxTextChanged;
                 target.KeyDown += OnTextBoxKeyDown;
                 target.LostKeyboardFocus += OnTextBoxLostKeyboardFocus;
+                target.AddHandler(
+                    MouseLeftButtonUpEvent,
+                    new MouseButtonEventHandler(OnEditorMouseLeftButtonUp),
+                    true);
             }
         }
 
@@ -424,8 +650,12 @@ namespace ZenUI.Wpf.Controls
         {
             if (target != null)
             {
+                target.TextChanged -= OnTextBoxTextChanged;
                 target.KeyDown -= OnTextBoxKeyDown;
                 target.LostKeyboardFocus -= OnTextBoxLostKeyboardFocus;
+                target.RemoveHandler(
+                    MouseLeftButtonUpEvent,
+                    new MouseButtonEventHandler(OnEditorMouseLeftButtonUp));
             }
         }
 

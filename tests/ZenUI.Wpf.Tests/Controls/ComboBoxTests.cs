@@ -55,7 +55,10 @@ namespace ZenUI.Wpf.Tests.Controls
                 var popupBorder = comboPopup.Child as Border;
                 Assert.IsNotNull(popupBorder);
                 Assert.AreEqual(new Thickness(0, 6, 0, 0), popupBorder.Margin);
-                Assert.AreEqual(new Thickness(7), popupBorder.Padding);
+                var popupScrollViewer =
+                    FindVisualDescendant<ScrollViewer>(popupBorder);
+                Assert.IsNotNull(popupScrollViewer);
+                Assert.AreEqual(new Thickness(7), popupScrollViewer.Padding);
                 Assert.AreEqual(new Thickness(2), popupBorder.BorderThickness);
                 Assert.AreEqual(new CornerRadius(9), popupBorder.CornerRadius);
             }
@@ -187,6 +190,44 @@ namespace ZenUI.Wpf.Tests.Controls
         }
 
         [TestMethod]
+        public void ComboBoxArrowRotatesWithDropDownState()
+        {
+            var comboBox = new ZenComboBox { Width = 160 };
+            comboBox.Items.Add("Item");
+            var window = CreateTestWindow(comboBox, 220, 120);
+            window.Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri(
+                    "/ZenUI.Wpf;component/Themes/Generic.xaml",
+                    UriKind.Relative)
+            });
+
+            try
+            {
+                window.Show();
+                window.UpdateLayout();
+
+                var arrow = comboBox.Template.FindName("DropDownArrow", comboBox) as Path;
+                Assert.IsNotNull(arrow);
+                Assert.AreEqual(0d, ((RotateTransform)arrow.RenderTransform).Angle);
+
+                comboBox.IsDropDownOpen = true;
+                window.UpdateLayout();
+                Assert.AreEqual(180d, ((RotateTransform)arrow.RenderTransform).Angle);
+
+                comboBox.IsDropDownOpen = false;
+                window.UpdateLayout();
+                Assert.AreEqual(0d, ((RotateTransform)arrow.RenderTransform).Angle);
+            }
+            finally
+            {
+                comboBox.IsDropDownOpen = false;
+                window.Dispatcher.Invoke(DispatcherPriority.ContextIdle, new Action(() => { }));
+                window.Close();
+            }
+        }
+
+        [TestMethod]
         public void EditableComboBoxHidesWatermarkAfterTextIsEntered()
         {
             var comboBox = new ZenComboBox
@@ -224,7 +265,7 @@ namespace ZenUI.Wpf.Tests.Controls
         }
 
         [TestMethod]
-        public void ComboBoxItemsUseListSelectionStateTokens()
+        public void ComboBoxItemsUseListSelectionStateAndDensityTokens()
         {
             var comboBox = new ZenComboBox { Width = 180 };
             comboBox.Items.Add("第一项");
@@ -249,6 +290,15 @@ namespace ZenUI.Wpf.Tests.Controls
                 var itemBorder = item.Template.FindName("ItemBorder", item) as Border;
                 Assert.IsNotNull(itemBorder);
                 Assert.AreEqual(new Thickness(0, 1, 0, 1), item.Margin);
+                Assert.AreEqual(new Thickness(12, 9, 12, 9), item.Padding);
+
+                ZenDensityManager.ApplyDensity(window.Resources, ZenDensity.Compact);
+                window.UpdateLayout();
+                Assert.AreEqual(new Thickness(10, 6, 10, 6), item.Padding);
+
+                ZenDensityManager.ApplyDensity(window.Resources, ZenDensity.Standard);
+                window.UpdateLayout();
+                Assert.AreEqual(new Thickness(12, 9, 12, 9), item.Padding);
 
                 Keyboard.Focus(comboBox);
                 comboBox.RaiseEvent(new KeyEventArgs(

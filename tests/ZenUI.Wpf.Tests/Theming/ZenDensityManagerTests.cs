@@ -20,36 +20,66 @@ namespace ZenUI.Wpf.Tests.Theming
             ZenDensityManager.ApplyDensity(resources, ZenDensity.Compact);
 
             Assert.AreEqual(32d, resources["ZenInputControlMinHeight"]);
+            Assert.AreEqual(32d, resources["ZenButtonMinHeight"]);
             Assert.AreEqual(new Thickness(10, 6, 10, 6), resources["ZenListBoxItemPadding"]);
+            Assert.AreEqual(32d, resources["ZenNumberBoxSpinButtonWidth"]);
             Assert.AreEqual(36d, resources["ZenDataGridRowMinHeight"]);
-            Assert.AreEqual(40d, resources["ZenCalendarDayButtonHeight"]);
-            Assert.AreEqual(56d, resources["ZenSwitchWidth"]);
+            Assert.AreEqual(328d, resources["ZenCalendarPopupWidth"]);
+            Assert.AreEqual(new Thickness(6), resources["ZenCalendarContentMargin"]);
+            Assert.AreEqual(172d, resources["ZenTimePickerListHeight"]);
+            Assert.AreEqual(32d, resources["ZenTimePickerItemHeight"]);
+            Assert.AreEqual(52d, resources["ZenSwitchWidth"]);
+            Assert.AreEqual(16d, resources["ZenSelectionIndicatorSize"]);
+            Assert.AreEqual(16d, resources["ZenSliderThumbSize"]);
             Assert.AreEqual(3d, resources["ZenSliderTrackThickness"]);
             Assert.AreEqual(6d, resources["ZenProgressBarThickness"]);
+            Assert.AreEqual(20d, resources["ZenLoadingIndicatorSize"]);
+            Assert.AreEqual(2d, resources["ZenLoadingIndicatorThickness"]);
+            Assert.AreEqual(8d, resources["ZenLoadingContentSpacing"]);
             Assert.AreEqual(new Thickness(12, 8, 12, 8), resources["ZenAlertPadding"]);
             Assert.AreEqual(2, resources.MergedDictionaries.Count);
 
             ZenDensityManager.ApplyDensity(resources, ZenDensity.Comfortable);
 
             Assert.AreEqual(40d, resources["ZenInputControlMinHeight"]);
+            Assert.AreEqual(40d, resources["ZenButtonMinHeight"]);
             Assert.AreEqual(new Thickness(14, 11, 14, 11), resources["ZenListBoxItemPadding"]);
+            Assert.AreEqual(40d, resources["ZenNumberBoxSpinButtonWidth"]);
             Assert.AreEqual(52d, resources["ZenDataGridRowMinHeight"]);
-            Assert.AreEqual(50d, resources["ZenCalendarDayButtonHeight"]);
-            Assert.AreEqual(72d, resources["ZenSwitchWidth"]);
-            Assert.AreEqual(6d, resources["ZenSliderTrackThickness"]);
+            Assert.AreEqual(412d, resources["ZenCalendarPopupWidth"]);
+            Assert.AreEqual(new Thickness(10), resources["ZenCalendarContentMargin"]);
+            Assert.AreEqual(220d, resources["ZenTimePickerListHeight"]);
+            Assert.AreEqual(40d, resources["ZenTimePickerItemHeight"]);
+            Assert.AreEqual(68d, resources["ZenSwitchWidth"]);
+            Assert.AreEqual(20d, resources["ZenSelectionIndicatorSize"]);
+            Assert.AreEqual(20d, resources["ZenSliderThumbSize"]);
+            Assert.AreEqual(4d, resources["ZenSliderTrackThickness"]);
             Assert.AreEqual(10d, resources["ZenProgressBarThickness"]);
+            Assert.AreEqual(28d, resources["ZenLoadingIndicatorSize"]);
+            Assert.AreEqual(2.5d, resources["ZenLoadingIndicatorThickness"]);
+            Assert.AreEqual(12d, resources["ZenLoadingContentSpacing"]);
             Assert.AreEqual(new Thickness(16, 14, 16, 14), resources["ZenAlertPadding"]);
             Assert.AreEqual(2, resources.MergedDictionaries.Count);
 
             ZenDensityManager.ApplyDensity(resources, ZenDensity.Standard);
 
             Assert.AreEqual(36d, resources["ZenInputControlMinHeight"]);
+            Assert.AreEqual(36d, resources["ZenButtonMinHeight"]);
             Assert.AreEqual(new Thickness(12, 9, 12, 9), resources["ZenListBoxItemPadding"]);
+            Assert.AreEqual(34d, resources["ZenNumberBoxSpinButtonWidth"]);
             Assert.AreEqual(44d, resources["ZenDataGridRowMinHeight"]);
-            Assert.AreEqual(44d, resources["ZenCalendarDayButtonHeight"]);
-            Assert.AreEqual(64d, resources["ZenSwitchWidth"]);
+            Assert.AreEqual(368d, resources["ZenCalendarPopupWidth"]);
+            Assert.AreEqual(new Thickness(8), resources["ZenCalendarContentMargin"]);
+            Assert.AreEqual(196d, resources["ZenTimePickerListHeight"]);
+            Assert.AreEqual(36d, resources["ZenTimePickerItemHeight"]);
+            Assert.AreEqual(60d, resources["ZenSwitchWidth"]);
+            Assert.AreEqual(18d, resources["ZenSelectionIndicatorSize"]);
+            Assert.AreEqual(18d, resources["ZenSliderThumbSize"]);
             Assert.AreEqual(4d, resources["ZenSliderTrackThickness"]);
             Assert.AreEqual(8d, resources["ZenProgressBarThickness"]);
+            Assert.AreEqual(24d, resources["ZenLoadingIndicatorSize"]);
+            Assert.AreEqual(2d, resources["ZenLoadingIndicatorThickness"]);
+            Assert.AreEqual(10d, resources["ZenLoadingContentSpacing"]);
             Assert.AreEqual(new Thickness(14, 11, 14, 11), resources["ZenAlertPadding"]);
             Assert.AreEqual(1, resources.MergedDictionaries.Count);
         }

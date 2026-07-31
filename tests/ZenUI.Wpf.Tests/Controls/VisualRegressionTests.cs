@@ -129,7 +129,7 @@ namespace ZenUI.Wpf.Tests.Controls
                         window.Dispatcher.Invoke(DispatcherPriority.ContextIdle, new Action(() => { }));
                         window.UpdateLayout();
 
-                        var calendar = datePicker.Template.FindName("PART_Calendar", datePicker) as Calendar;
+                        var calendar = ControlTestHelper.GetDatePickerCalendar(datePicker);
                         Assert.IsNotNull(calendar);
                         calendar.ApplyTemplate();
                         var calendarItem =
@@ -144,12 +144,10 @@ namespace ZenUI.Wpf.Tests.Controls
                         Assert.IsNotNull(monthView);
                         var dayButton = FindCalendarDayButton(monthView, calendar.CalendarDayButtonStyle);
                         Assert.IsNotNull(dayButton);
-                        Assert.AreEqual(
-                            (double)window.Resources["ZenCalendarDayButtonWidth"],
-                            dayButton.Width);
-                        Assert.AreEqual(
-                            (double)window.Resources["ZenCalendarDayButtonHeight"],
-                            dayButton.Height);
+                        Assert.IsTrue(double.IsNaN(dayButton.Width));
+                        Assert.IsTrue(double.IsNaN(dayButton.Height));
+                        Assert.IsGreaterThan(0d, dayButton.ActualWidth);
+                        Assert.IsGreaterThan(0d, dayButton.ActualHeight);
 
                         var bitmap = RenderRealizedElement(calendar, 1.25d);
                         Assert.IsGreaterThan(12, CountDistinctSampledColors(bitmap));
@@ -227,11 +225,18 @@ namespace ZenUI.Wpf.Tests.Controls
                 Maximum = 100,
                 Value = 64
             });
+            panel.Children.Add(new ZenLoading
+            {
+                Height = 80,
+                Margin = new Thickness(0, 14, 0, 0),
+                IsLoading = true,
+                LoadingText = "正在加载主题资源…"
+            });
             panel.Children.Add(new ZenAlert
             {
                 Margin = new Thickness(0, 14, 0, 0),
                 Content = "主题、焦点和语义颜色快照",
-                Variant = AlertVariant.Success
+                Severity = AlertSeverity.Success
             });
 
             var listBox = new ZenListBox

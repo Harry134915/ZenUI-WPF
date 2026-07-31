@@ -4,9 +4,54 @@
 
 ## Unreleased
 
+### Added
+
+- `ZenNumberBox` 增加增减按钮的自定义内容与内容模板属性，支持将数字编辑区域的点击操作绑定到 MVVM 命令，并让有效文本输入实时更新双向绑定的 `Value`。
+- 增加 `ZenLoading` 加载状态容器，支持内容遮罩、可选说明文字、水平与垂直布局、交互阻断、主题与 Density 动态切换及 UI Automation 语义。
+
+### Changed
+
+- `ZenPopover` 将触发内容 API 更名为 `Anchor`、`AnchorTemplate` 和 `AnchorButtonStyle`；未设置锚点时保留默认问号样式，设置后完整呈现自定义锚点内容。
+
+## [0.1.0-preview.6] - 2026-07-30
+
+### Added
+
+- `ZenAlert` 增加 `IconSize` 属性，用于自定义提示图标尺寸。
+- 增加 `ZenPopover` 轻量浮层控件，支持自定义触发内容、显示方位、箭头和气泡尺寸。
+- 增加 `ZenRadioGroup` 单选组控件，支持互斥选择、键盘导航、排列方向、等分布局和两种视觉样式。
+- 增加 `ZenContextMenu` 与 `ZenMenuItem` 右键菜单控件，支持图标、快捷键提示、勾选项、分隔线和级联菜单。
+- 增加 `ZenExpander` 折叠面板控件，保留原生展开方向、事件和自动化语义，并支持标题、内容区与展开标识的主题化尺寸。
+- 增加 `ZenTimePicker` 时间选择控件，支持文本输入、弹层选择、12/24 小时制、秒显示、选择步长和时间范围约束。
+
+### Changed
+
+- Calendar 日期按钮改为自动填充等分网格，并移除不再需要的日期按钮宽高属性与 Density Token。
+- 调整 `ZenButton` 三档 Density 的默认内边距；按钮继续使用内容驱动的自动宽高，不设置固定或最小尺寸。
+- 带内部滚动区域的控件统一处理嵌套鼠标滚轮：控件存在垂直滚动范围时保留滚轮事件，仅在没有可滚内容时将滚动交给外层容器。
+
+## [0.1.0-preview.5] - 2026-07-27
+
+### Added
+
+- `ButtonVariant` 增加 `Neutral` 中性操作样式。
+- `ZenCheckBox` 与 `ZenRadioButton` 增加 `IndicatorSize` 属性，用于自定义选择标识尺寸。
+- `ZenNumberBox` 增加 `SpinButtonWidth` 属性，用于统一设置增减按钮宽度。
+
+### Changed
+
+- 标准化公开控件 API 命名：`ZenAlert.Variant` 更名为 `Severity`，`ZenNumberBox.ButtonMode` 更名为 `SpinButtonLayout`，`ZenPasswordBox.IsPasswordRevealEnabled` 更名为 `IsPasswordRevealButtonEnabled`。
+
+## [0.1.0-preview.4] - 2026-07-27
+
+### Added
+
+- 增加可独立使用的 `ZenCalendar` 日历控件及 Gallery 示例，支持单日、单范围、多范围选择和 Density 动态尺寸。
+
 ### Changed
 
 - 统一所有 Zen 控件默认正文字号为 `ZenFontSizeBody`（14），并保留 Token 与控件属性覆盖能力。
+- 修复 DatePicker 弹层内模板绑定受 Popup 边界影响而回退到小尺寸和小字号，以及范围外日期被隐藏而非显示为禁用态的问题。
 
 ## [0.1.0-preview.3] - 2026-07-25
 
@@ -87,7 +132,10 @@
 - Password 明文绑定默认关闭，并标记为过时兼容 API。
 - DataGrid 恢复行虚拟化、行头、行详情、全选、冻结列偏移和高级编辑契约。
 
-[Unreleased]: https://github.com/XiaQueNet/ZenUI-WPF/compare/v0.1.0-preview.3...HEAD
+[Unreleased]: https://github.com/XiaQueNet/ZenUI-WPF/compare/v0.1.0-preview.6...HEAD
+[0.1.0-preview.6]: https://github.com/XiaQueNet/ZenUI-WPF/compare/v0.1.0-preview.5...v0.1.0-preview.6
+[0.1.0-preview.5]: https://github.com/XiaQueNet/ZenUI-WPF/compare/v0.1.0-preview.4...v0.1.0-preview.5
+[0.1.0-preview.4]: https://github.com/XiaQueNet/ZenUI-WPF/compare/v0.1.0-preview.3...v0.1.0-preview.4
 [0.1.0-preview.3]: https://github.com/XiaQueNet/ZenUI-WPF/compare/v0.1.0-preview.2...v0.1.0-preview.3
 [0.1.0-preview.2]: https://github.com/XiaQueNet/ZenUI-WPF/compare/v0.1.0-preview.1...v0.1.0-preview.2
 [0.1.0-preview.1]: https://github.com/XiaQueNet/ZenUI-WPF/releases/tag/v0.1.0-preview.1

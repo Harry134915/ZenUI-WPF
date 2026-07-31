@@ -6,35 +6,65 @@
     <sys:Double x:Key="ZenInputControlMinHeight">40</sys:Double>
     <Thickness x:Key="ZenInputControlPadding">10,6</Thickness>
 
-    <Thickness x:Key="ZenButtonPadding">8,3</Thickness>
+    <sys:Double x:Key="ZenButtonMinHeight">40</sys:Double>
+    <Thickness x:Key="ZenButtonPadding">12,6</Thickness>
     <Thickness x:Key="ZenListBoxPadding">6</Thickness>
     <Thickness x:Key="ZenListBoxItemPadding">14,11</Thickness>
     <Thickness x:Key="ZenListBoxItemMargin">0,2</Thickness>
 
+    <sys:Double x:Key="ZenNumberBoxSpinButtonWidth">40</sys:Double>
+
     <sys:Double x:Key="ZenScrollBarThickness">14</sys:Double>
     <sys:Double x:Key="ZenScrollBarTrackThickness">8</sys:Double>
     <sys:Double x:Key="ZenScrollBarThumbMinLength">40</sys:Double>
+    <Thickness x:Key="ZenVerticalScrollBarMargin">0,6</Thickness>
+    <Thickness x:Key="ZenHorizontalScrollBarMargin">6,0</Thickness>
 
     <Thickness x:Key="ZenComboBoxPopupMargin">0,6,0,0</Thickness>
     <Thickness x:Key="ZenComboBoxPopupPadding">6</Thickness>
+    <Thickness x:Key="ZenTimePickerPopupMargin">0,6,0,10</Thickness>
+    <Thickness x:Key="ZenTimePickerPopupPadding">8</Thickness>
+    <sys:Double x:Key="ZenTimePickerColumnWidth">70</sys:Double>
+    <sys:Double x:Key="ZenTimePickerPeriodColumnWidth">80</sys:Double>
+    <sys:Double x:Key="ZenTimePickerListHeight">220</sys:Double>
+    <sys:Double x:Key="ZenTimePickerItemHeight">40</sys:Double>
+    <Thickness x:Key="ZenTimePickerItemMargin">0,3</Thickness>
+    <Thickness x:Key="ZenContextMenuPadding">6</Thickness>
+    <sys:Double x:Key="ZenContextMenuItemMinHeight">42</sys:Double>
+    <Thickness x:Key="ZenContextMenuItemPadding">10,6</Thickness>
+    <Thickness x:Key="ZenContextMenuSeparatorMargin">10,6</Thickness>
+    <Thickness x:Key="ZenCalloutPadding">16,12</Thickness>
+    <sys:Double x:Key="ZenCalloutTriggerSize">28</sys:Double>
+    <sys:Double x:Key="ZenCalloutTargetGap">5</sys:Double>
 
     <sys:Double x:Key="ZenDataGridColumnHeaderHeight">52</sys:Double>
     <sys:Double x:Key="ZenDataGridRowMinHeight">52</sys:Double>
     <Thickness x:Key="ZenDataGridCellPadding">18,0</Thickness>
 
-    <sys:Double x:Key="ZenCalendarDayButtonWidth">54</sys:Double>
-    <sys:Double x:Key="ZenCalendarDayButtonHeight">50</sys:Double>
+    <sys:Double x:Key="ZenCalendarPopupWidth">412</sys:Double>
+    <sys:Double x:Key="ZenCalendarPopupHeight">416</sys:Double>
+    <Thickness x:Key="ZenCalendarContentMargin">10</Thickness>
     <Thickness x:Key="ZenCalendarButtonPadding">14,18</Thickness>
     <sys:Double x:Key="ZenCalendarNavigationButtonSize">44</sys:Double>
 
-    <sys:Double x:Key="ZenSwitchWidth">72</sys:Double>
+    <sys:Double x:Key="ZenSwitchWidth">68</sys:Double>
     <sys:Double x:Key="ZenSwitchHeight">34</sys:Double>
     <Thickness x:Key="ZenSwitchThumbMargin">4</Thickness>
 
-    <sys:Double x:Key="ZenSliderThumbSize">22</sys:Double>
-    <sys:Double x:Key="ZenSliderTrackThickness">6</sys:Double>
+    <sys:Double x:Key="ZenSelectionIndicatorSize">20</sys:Double>
+
+    <sys:Double x:Key="ZenSliderThumbSize">20</sys:Double>
+    <sys:Double x:Key="ZenSliderTrackThickness">4</sys:Double>
     <sys:Double x:Key="ZenSliderCrossAxisMinSize">28</sys:Double>
 
     <sys:Double x:Key="ZenProgressBarThickness">10</sys:Double>
+    <sys:Double x:Key="ZenLoadingIndicatorSize">28</sys:Double>
+    <sys:Double x:Key="ZenLoadingIndicatorThickness">2.5</sys:Double>
+    <sys:Double x:Key="ZenLoadingContentSpacing">12</sys:Double>
     <Thickness x:Key="ZenAlertPadding">16,14</Thickness>
+    <Thickness x:Key="ZenExpanderHeaderPadding">16,14</Thickness>
+    <Thickness x:Key="ZenExpanderContentPadding">16,13,16,16</Thickness>
+
+    <sys:Double x:Key="ZenRadioItemMinHeight">44</sys:Double>
+    <Thickness x:Key="ZenRadioItemPadding">18,0</Thickness>
 </ResourceDictionary>

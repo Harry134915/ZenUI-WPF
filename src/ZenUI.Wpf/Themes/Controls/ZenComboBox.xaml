@@ -4,7 +4,7 @@
     xmlns:zen="clr-namespace:ZenUI.Wpf.Controls">
 
     <Style x:Key="ZenComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">
-        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="Padding" Value="{DynamicResource ZenListBoxItemPadding}" />
         <Setter Property="Margin" Value="0,1" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
@@ -122,9 +122,14 @@
                             VerticalAlignment="Center"
                             Data="M 1,1 L 5,5 L 9,1"
                             IsHitTestVisible="False"
+                            RenderTransformOrigin="0.5,0.5"
                             Stroke="{DynamicResource ZenTextSecondaryBrush}"
                             StrokeLineJoin="Round"
-                            StrokeThickness="1.5" />
+                            StrokeThickness="1.5">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="0" />
+                            </Path.RenderTransform>
+                        </Path>
                         <Popup
                             x:Name="PART_Popup"
                             Grid.ColumnSpan="2"
@@ -137,12 +142,15 @@
                                 MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
                                 MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                 Margin="{DynamicResource ZenComboBoxPopupMargin}"
-                                Padding="{DynamicResource ZenComboBoxPopupPadding}"
                                 Background="{DynamicResource ZenSurfaceBrush}"
                                 BorderBrush="{DynamicResource ZenBorderBrush}"
                                 BorderThickness="{DynamicResource ZenControlBorderThickness}"
                                 CornerRadius="{DynamicResource ZenComboBoxPopupCornerRadius}">
-                                <ScrollViewer CanContentScroll="True">
+                                <ScrollViewer
+                                    x:Name="PopupScrollViewer"
+                                    zen:ScrollViewerAssist.IsMouseWheelChainingEnabled="True"
+                                    CanContentScroll="True"
+                                    Padding="{DynamicResource ZenComboBoxPopupPadding}">
                                     <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" />
                                 </ScrollViewer>
                             </Border>
@@ -178,6 +186,11 @@
                         </Trigger>
                         <Trigger Property="IsDropDownOpen" Value="True">
                             <Setter TargetName="InputBorder" Property="BorderBrush" Value="{DynamicResource ZenPrimaryBrush}" />
+                            <Setter TargetName="DropDownArrow" Property="RenderTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="180" />
+                                </Setter.Value>
+                            </Setter>
                         </Trigger>
                         <Trigger Property="Validation.HasError" Value="True">
                             <Setter TargetName="InputBorder" Property="BorderBrush" Value="{DynamicResource ZenErrorBrush}" />
@@ -185,7 +198,7 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="{DynamicResource ZenDisabledInputOpacity}" />
-                            <Setter TargetName="InputBorder" Property="Background" Value="{DynamicResource ZenSurfaceMutedBrush}" />
+                            <Setter TargetName="InputBorder" Property="Background" Value="{DynamicResource ZenSurfaceDisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

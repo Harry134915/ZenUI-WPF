@@ -27,6 +27,41 @@ namespace ZenUI.Wpf.Tests.Controls
     public class ControlTokenTests
     {
         [TestMethod]
+        public void AlertUsesNeutralBorderAndCornerRadiusToken()
+        {
+            var alert = new ZenAlert
+            {
+                Content = "Saved",
+                Severity = AlertSeverity.Warning
+            };
+            var window = CreateTestWindow(alert, 320, 120);
+            window.Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri(
+                    "/ZenUI.Wpf;component/Themes/Generic.xaml",
+                    UriKind.Relative)
+            });
+            window.Resources["ZenAlertCornerRadius"] = new CornerRadius(10);
+
+            try
+            {
+                window.Show();
+                window.UpdateLayout();
+
+                var alertBorder = alert.Template.FindName("AlertBorder", alert) as Border;
+                Assert.IsNotNull(alertBorder);
+                Assert.AreEqual(new CornerRadius(10), alertBorder.CornerRadius);
+                Assert.AreEqual(
+                    ((SolidColorBrush)alert.FindResource("ZenBorderBrush")).Color,
+                    ((SolidColorBrush)alert.BorderBrush).Color);
+            }
+            finally
+            {
+                window.Close();
+            }
+        }
+
+        [TestMethod]
         public void TypographyTokensCanBeOverriddenInWindowResources()
         {
             var alert = new ZenAlert { Content = "Saved" };
@@ -125,6 +160,7 @@ namespace ZenUI.Wpf.Tests.Controls
                     UriKind.Relative)
             });
             window.Resources["ZenControlBorderThickness"] = new Thickness(2);
+            window.Resources["ZenButtonMinHeight"] = 44d;
             window.Resources["ZenButtonPadding"] = new Thickness(14, 6, 14, 6);
             window.Resources["ZenButtonCornerRadius"] = new CornerRadius(12);
             window.Resources["ZenListBoxPadding"] = new Thickness(6);
@@ -138,6 +174,7 @@ namespace ZenUI.Wpf.Tests.Controls
                 window.Show();
                 window.UpdateLayout();
 
+                Assert.AreEqual(44d, button.MinHeight);
                 Assert.AreEqual(new Thickness(14, 6, 14, 6), button.Padding);
                 Assert.AreEqual(new CornerRadius(12), button.CornerRadius);
                 Assert.AreEqual(new Thickness(2), button.BorderThickness);

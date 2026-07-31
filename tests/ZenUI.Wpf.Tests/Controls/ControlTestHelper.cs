@@ -74,6 +74,12 @@ namespace ZenUI.Wpf.Tests.Controls
             };
         }
 
+        internal static Calendar GetDatePickerCalendar(ZenDatePicker datePicker)
+        {
+            var popup = datePicker.Template.FindName("PART_Popup", datePicker) as Popup;
+            return popup?.Child as Calendar;
+        }
+
         internal static void AssertScrollBarMetrics(
             ScrollBar scrollBar,
             double expectedTrackThickness,
@@ -214,7 +220,17 @@ namespace ZenUI.Wpf.Tests.Controls
             public object ExposedDefaultStyleKey => DefaultStyleKey;
             public AutomationPeer ExposedAutomationPeer => OnCreateAutomationPeer();
         }
+        internal sealed class TestZenLoading : ZenLoading
+        {
+            public object ExposedDefaultStyleKey => DefaultStyleKey;
+            public AutomationPeer ExposedAutomationPeer => OnCreateAutomationPeer();
+        }
         internal sealed class TestZenAlert : ZenAlert
+        {
+            public object ExposedDefaultStyleKey => DefaultStyleKey;
+            public AutomationPeer ExposedAutomationPeer => OnCreateAutomationPeer();
+        }
+        internal sealed class TestZenExpander : ZenExpander
         {
             public object ExposedDefaultStyleKey => DefaultStyleKey;
             public AutomationPeer ExposedAutomationPeer => OnCreateAutomationPeer();

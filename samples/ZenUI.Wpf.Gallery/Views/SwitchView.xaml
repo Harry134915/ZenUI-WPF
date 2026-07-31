@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:gallery="clr-namespace:ZenUI.Wpf.Gallery.Controls"
     xmlns:zen="https://zenui.mnorg.cn/xaml/wpf">
-    <ScrollViewer Padding="40" HorizontalContentAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer Padding="{StaticResource GalleryPagePadding}" HorizontalContentAlignment="Stretch" VerticalScrollBarVisibility="Auto">
         <StackPanel>
             <gallery:PageHeader Description="用于在打开和关闭状态之间即时切换。" Title="Switch 开关" />
             <Border Style="{StaticResource GalleryCardStyle}">
@@ -28,25 +28,6 @@
                     <StackPanel Orientation="Horizontal">
                         <zen:ZenSwitch Margin="0,0,24,0" IsChecked="True" IsEnabled="False" />
                         <zen:ZenSwitch IsEnabled="False" />
-                    </StackPanel>
-                </StackPanel>
-            </Border>
-            <Border Style="{StaticResource GalleryCardStyle}">
-                <StackPanel>
-                    <TextBlock Style="{StaticResource SectionTitleStyle}" Text="不同宽度" />
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel Margin="0,0,40,0">
-                            <zen:ZenSwitch Width="48" IsChecked="True" />
-                            <TextBlock HorizontalAlignment="Center" Style="{StaticResource GallerySupportingTextStyle}" Text="紧凑" />
-                        </StackPanel>
-                        <StackPanel Margin="0,0,40,0">
-                            <zen:ZenSwitch IsChecked="True" />
-                            <TextBlock HorizontalAlignment="Center" Style="{StaticResource GallerySupportingTextStyle}" Text="默认" />
-                        </StackPanel>
-                        <StackPanel>
-                            <zen:ZenSwitch Width="80" IsChecked="True" />
-                            <TextBlock HorizontalAlignment="Center" Style="{StaticResource GallerySupportingTextStyle}" Text="宽型" />
-                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </Border>
@@ -78,6 +59,7 @@
                     </Grid>
                 </StackPanel>
             </Border>
+            <gallery:PropertyTable ControlType="{x:Type zen:ZenSwitch}" />
         </StackPanel>
     </ScrollViewer>
 </UserControl>

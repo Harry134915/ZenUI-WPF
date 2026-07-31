@@ -1,0 +1,110 @@
+<UserControl
+    x:Class="ZenUI.Wpf.Gallery.Controls.PropertyTable"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:zen="https://zenui.mnorg.cn/xaml/wpf">
+    <Border Style="{StaticResource GalleryCardStyle}">
+        <StackPanel>
+            <TextBlock Style="{StaticResource SectionTitleStyle}" Text="自定义属性" />
+            <TextBlock
+                Margin="0,0,0,16"
+                Foreground="{DynamicResource ZenTextSecondaryBrush}"
+                Text="以下仅列出 ZenUI 在原生 WPF 控件基础上新增的公开属性。默认值取自依赖属性元数据，主题样式可能覆盖。"
+                TextWrapping="Wrap" />
+
+            <zen:ZenDataGrid
+                x:Name="PropertiesGrid"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False"
+                CanUserReorderColumns="False"
+                CanUserResizeColumns="False"
+                CanUserResizeRows="False"
+                CanUserSortColumns="False"
+                IsReadOnly="True"
+                IsTabStop="False"
+                ItemsSource="{Binding Rows, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="1.6*" Header="属性名">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <zen:ZenButton
+                                    Padding="4,2"
+                                    HorizontalContentAlignment="Left"
+                                    Appearance="Text"
+                                    AutomationProperties.Name="{Binding Name, StringFormat=复制属性 {0}}"
+                                    Click="CopyPropertyName_OnClick"
+                                    ToolTip="单击复制属性名"
+                                    Variant="Neutral">
+                                    <TextBlock
+                                        FontFamily="Consolas"
+                                        Text="{Binding Name}"
+                                        TextWrapping="Wrap" />
+                                </zen:ZenButton>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn
+                        Width="1.2*"
+                        Binding="{Binding TypeName}"
+                        Header="类型">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="FontFamily" Value="Consolas" />
+                                <Setter Property="Foreground" Value="{DynamicResource ZenTextSecondaryBrush}" />
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn
+                        Width="1.2*"
+                        Binding="{Binding DefaultValue}"
+                        Header="默认值">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="FontFamily" Value="Consolas" />
+                                <Setter Property="Foreground" Value="{DynamicResource ZenTextSecondaryBrush}" />
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn
+                        Width="2.8*"
+                        Binding="{Binding Description}"
+                        Header="说明">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn
+                        Width="Auto"
+                        Binding="{Binding IntroducedVersion}"
+                        Header="版本">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="FontFamily" Value="Consolas" />
+                                <Setter Property="FontSize" Value="{DynamicResource ZenFontSizeCaption}" />
+                                <Setter Property="Foreground" Value="{DynamicResource ZenTextPlaceholderBrush}" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </zen:ZenDataGrid>
+
+            <Border
+                x:Name="EmptyState"
+                Padding="18"
+                Background="{DynamicResource ZenSurfaceMutedBrush}"
+                BorderThickness="0"
+                CornerRadius="6"
+                Visibility="Collapsed">
+                <TextBlock
+                    Foreground="{DynamicResource ZenTextSecondaryBrush}"
+                    Text="此控件当前没有面向使用者新增的公开属性，主要提供 ZenUI 主题样式与交互体验。"
+                    TextWrapping="Wrap" />
+            </Border>
+        </StackPanel>
+    </Border>
+</UserControl>
